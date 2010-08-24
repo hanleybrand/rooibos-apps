@@ -103,7 +103,7 @@ class JMUtubeStorageSystem(LocalFileSystemStorageSystem):
                              storage=get_jmutube_storage(),
                              mimetype=mimetype)
         title_field = Field.objects.get(name='title', standard__prefix='dc')
-        CollectionItem.objects.create(collection=get_jmutube_collection(), record=record)
+        CollectionItem.objects.create(collection=get_jmutube_collection(), record=record, hidden=True)
         FieldValue.objects.create(record=record,
                                    field=title_field,
                                    value=title,
