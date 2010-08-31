@@ -181,6 +181,7 @@
       <div><label><a href="" id="rssfeedurllink" target="_blank">RSS feed URL:</a></label><input type="text" readonly="readonly" id="rssfeedurl" /><h6>This option allows you to deliver your playlist as an iTunes podcast.</h6></div>
       <div><label><a href="" id="htmlcodelink">HTML code:</a></label><textarea wrap="off" readonly="readonly" id="htmltoembed"></textarea><h6>Copy and paste this HTML code to embed your playlist into any web page (including Blackboard).</h6></div>
       <div><label>HTML page:</label><a href="" id="downloadhtmllink" target="_blank">Download HTML page with embedded code</a></div>
+      <div><br /><br /><br /></div>
 </div>
 
 <div id="previewdialog">
@@ -389,8 +390,7 @@ $(window).bind("load", function() {
                 title: "Get playlist for your site",
                 overlay: { opacity: 0.5, background: 'black' },
                 buttons: { 'Close': function() { $(this).dialog('close'); } },
-                height: 480,
-                width: 600
+                width: 680
         });
         $('#previewdialog').dialog({
                 modal: true,

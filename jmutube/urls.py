@@ -25,7 +25,6 @@ urlpatterns = patterns('',
     url(r'^$', direct_to_template, {'template': 'jmutube-home.html'}, name='jmutube-main'),
 
     url(r'^admin/(.*)', admin.site.root, {'SSL': True}, name='admin'),
-#    url(r'^mstatic/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_DIR}, name='jmutube-master-static'),
 
     url(r'^accounts/login/$', jmutube_login, {'template_name': 'registration/jmutube-login.html', 'SSL': True}, name='jmutube-login'),
     url(r'^accounts/logout/$', logout, {'template_name': 'registration/jmutube-logout.html'}, name='jmutube-logout'),

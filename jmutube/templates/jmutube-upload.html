@@ -3,8 +3,8 @@
 {% block content %}
 
 <script type="text/javascript" src="{% url jmutube-static "swfupload/swfupload.js" %}"></script>
-<script type="text/javascript" src="{% url jmutube-static "swfupload/plugins/swfupload.cookies.js" %}"></script> 
-<script type="text/javascript" src="{% url jmutube-static "jquery/jquery.swfupload.js" %}"></script> 
+<script type="text/javascript" src="{% url jmutube-static "swfupload/plugins/swfupload.cookies.js" %}"></script>
+<script type="text/javascript" src="{% url jmutube-static "jquery/jquery.swfupload.js" %}"></script>
 
 <style>
 
@@ -19,7 +19,7 @@
     margin-right: 10px;
 }
 
-#upload-queue .upload-complete {    
+#upload-queue .upload-complete {
     color: green;
 }
 
@@ -74,7 +74,7 @@ $(document).ready(function() {
 		file_types_description : "All Supported Files",
 		file_upload_limit : "0",
                 file_post_name: "{{ form.file.name }}",
-		flash_url : "{% url static "swfupload/Flash/swfupload.swf" %}",
+		flash_url : "{% url jmutube-static "swfupload/Flash/swfupload.swf" %}",
 		button_image_url : '{% url jmutube-static "images/upload_button.png" %}',
 		button_width : 140,
 		button_height : 26,
@@ -108,15 +108,15 @@ $(document).ready(function() {
 
                         $(this).swfupload('removePostParam', '{{ form.for_user.name }}');
                         $(this).swfupload('addPostParam', '{{ form.for_user.name }}', $("#{{ form.for_user.auto_id }}").val());
-                    
+
                         $('#upload-progress').remove();
                         $('#upload-queue-' + file.id).after($("<div id='upload-progress'><div><"+"/div><"+"/div>"));
-                    
+
 			$('#log').append('<li>Upload start - '+file.name+'<'+'/li>');
 		})
 		.bind('uploadProgress', function(event, file, bytesLoaded){
 			$('#log').append('<li>Upload progress - '+bytesLoaded+'<'+'/li>');
-                        
+
                         if (file.size > 0) {
                             var w = parseInt(200 * bytesLoaded / file.size);
                             $('#upload-progress').css('width', w + 'px')
@@ -128,15 +128,15 @@ $(document).ready(function() {
 		})
 		.bind('uploadComplete', function(event, file){
 			$('#log').append('<li>Upload complete - '+file.name+'<'+'/li>');
-                        
+
                         $('#upload-progress').replaceWith('<div class="upload-complete">Complete<'+'/div>');
-                        
+
 			// upload has completed, lets try the next one in the queue
 			$(this).swfupload('startUpload');
 		})
 		.bind('uploadError', function(event, file, errorCode, message){
 			$('#log').append('<li>Upload error - '+message+'<'+'/li>');
-                        
+
                         $('#upload-progress').replaceWith('<div class="upload-failed">Error<'+'/div>');
 		});
 
@@ -148,6 +148,8 @@ $(document).ready(function() {
 {% if debug %}
 <ol id="log" style="display: none; clear: both; border: thin solid lightgrey; overflow: auto; max-height: 200px; margin-top: 20px;"></ol>
 {% endif %}
+
+<br /><br />
 
 <h4>JMUtube currently supports the following file types:</h4>
 <ul>
@@ -164,7 +166,7 @@ $(document).ready(function() {
 		<li>.mp3 files using a standardized sample rate</li>
 		<li>AAC audio files with an .m4a extension</li>
 	</ul>
-	</li>	
+	</li>
 	<li>
 	<strong>Presentations:</strong>
 	<ul>

@@ -1,0 +1,1 @@
+LOGFILENAME = 'jmutube-jobs'
