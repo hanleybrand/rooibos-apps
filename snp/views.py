@@ -32,12 +32,12 @@ def main(request):
 
 
 def browse(request):
-    
+
     collection = Collection.objects.get(name='shenandoah-national-park')
-    
+
     interview_numbers = dict(FieldValue.objects.filter(record__collection=collection,
                                                   field__label='Identifier').values_list('record__id', 'value'))
-    
+
     def get_values(label):
         v = FieldValue.objects.filter(
             Q(label=label) | Q(field__label=label),
@@ -46,13 +46,13 @@ def browse(request):
         for i in v:
             i['interview_number'] = interview_numbers.get(i['min_record_id'])
         return v
-        
-    interviewees = get_values('Interviewee')        
+
+    interviewees = get_values('Interviewee')
     family_names = get_values('Family Names')
     personal_names = get_values('Personal Names')
     place_names = get_values('Place Names')
     subjects = get_values('Subject')
-        
+
     return render_to_response('snp-browse.html',
                           { 'interviewees': interviewees,
                             'family_names': family_names,
@@ -64,27 +64,27 @@ def browse(request):
 
 
 def search(request):
-    
+
     collection = Collection.objects.get(name='shenandoah-national-park')
     q = request.GET.get('q', '')
     try:
         p = int(request.GET.get('p', 1))
     except ValueError:
         p = 1
-    
+
     f = request.GET.get('f')
     v = request.GET.get('v')
-    
+
     if f and v:
-        
+
         records = [fv.record for fv in FieldValue.objects.select_related('record').filter(record__collection=collection,
                                   label=f,
                                   value=v)]
-        
+
         prev_page = next_page = None
 
     else:
-        
+
         (hits, records, search_facets, orfacet, query, fields) = run_search(
             request.user,
             keywords=q,
@@ -93,29 +93,29 @@ def search(request):
             page=p,
             pagesize=20,
             produce_facets=False)
-        
+
         prev_page = max(1, p - 1)
         next_page = min(p + 1, (hits - 1) / 20 + 1) if hits > 0 else 1
-    
+
     results = []
-    
+
     for record in records:
-        
+
         mapping = {'Interviewee': 'interviewee',
                    'Identifier': 'interview_number',
                    'Location/Date': 'location_date',
                    'Description': 'description',
                    'Interviewer/Transcriber': 'interviewer_transcriber'}
-        
+
         result = dict()
-        
+
         for fv in record.get_fieldvalues():
             if mapping.has_key(fv.resolved_label):
                 result[mapping[fv.resolved_label]] = fv.value
-        
+
         results.append(result)
-        
-     
+
+
     return render_to_response('snp-search.html',
                               { 'results': results,
                                 'query': q,
@@ -136,7 +136,7 @@ def interview(request, number):
     description = FieldValue.objects.filter(record=record,
                                             field__label='Description',
                                             ).values_list('value', flat=True)
-    
+
 
     return render_to_response('snp-interview.html',
                               {'record': record,
@@ -146,15 +146,14 @@ def interview(request, number):
                                },
                               context_instance=RequestContext(request))
 
-    
+
 
 def transcript(request, number):
-    
-    
+
+
     collection = Collection.objects.get(name='shenandoah-national-park')
     record = get_object_or_404(FieldValue,
                                record__collection=collection,
                                field__label='Identifier',
                                value=number).record
-    return AudioTextSync().view(request, record.id, record.name, template='snp.html')
-    
+    return AudioTextSync().view(request, record.id, record.name, template='snp-transcript.html')
