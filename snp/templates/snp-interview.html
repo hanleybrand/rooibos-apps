@@ -1,33 +1,42 @@
 {% extends "snp.html" %}
 {% load data %}
 
-{% block content %}	  
+{% block content %}
 
-<!-- Bread Crumbs  -->     
+<!-- Bread Crumbs  -->
       <p style="margin-top:0;">
-      <a href="http://www.lib.jmu.edu/special/research/oralhistoryhome.aspx">Oral Histories </a> 
+      <a href="http://www.lib.jmu.edu/special/research/oralhistoryhome.aspx">Oral Histories </a>
       &gt; <a href="{% url snp-main %}"> SNP Collection</a>
       &gt; <a href=".">{{ record.title }}</a>
 
       </p>
-      
+
        <h2 align="center" style="margin-bottom: 0;">Shenandoah National Park Oral History Collection<br></h2>
        <h3 align="center" style="margin-top:0">{{ record.title }} </h3>
-       
+
       <blockquote>
 
         <p>{{ description }}
         </p>
-        
-      
-    {% if has_audio_transcript %}
+
+
         <p align="center">
+
+    {% if has_audio_transcript %}
 
         <strong><a href="{% url snp-transcript interview_number %}"> Transcript and Audio </a></strong> <br>
         <a href="{% url snp-transcript interview_number %}">
         <img src="https://www.lib.jmu.edu/special/images/listennowicon.gif" alt="Listen Now Button" border="0" /></a>
-        </p>
+    {% else %}
+        <strong>Transcript and Audio</strong>
+      {% if request.user.is_authenticated %}
+         for this recording are only available to visitors of Special Collections at James Madison University.
+      {% else %}
+         are only available for members of the JMU community.
+         Please <a href="{% url login %}?next={% url snp-interview interview_number %}">log in</a>.
+      {% endif %}
     {% endif %}
+        </p>
 
 
 <div>
@@ -35,7 +44,7 @@
 </div>
 
 
-        
-</blockquote>    
+
+</blockquote>
 
 {% endblock %}
