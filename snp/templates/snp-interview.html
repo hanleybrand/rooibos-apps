@@ -16,24 +16,33 @@
 
       <blockquote>
 
+    {% if image %}
+        <img style="float: right; width: 200px; margin: 10px;" src="{{ image.get_absolute_url }}" />
+      {% endif %}
+
         <p>{{ description }}
         </p>
 
 
         <p align="center">
 
-    {% if has_audio_transcript %}
+    {% if has_media %}
+      <strong><a href="{% url snp-media interview_number %}"> View Media </a></strong> <br>
+    {% endif %}
 
+    {% if has_audio_transcript %}
         <strong><a href="{% url snp-transcript interview_number %}"> Transcript and Audio </a></strong> <br>
         <a href="{% url snp-transcript interview_number %}">
         <img src="https://www.lib.jmu.edu/special/images/listennowicon.gif" alt="Listen Now Button" border="0" /></a>
     {% else %}
-        <strong>Transcript and Audio</strong>
-      {% if request.user.is_authenticated %}
-         for this recording are only available to visitors of Special Collections at James Madison University.
-      {% else %}
-         are only available for members of the JMU community.
-         Please <a href="{% url login %}?next={% url snp-interview interview_number %}">log in</a>.
+      {% if not has_media %}
+          <strong>Media</strong>
+        {% if request.user.is_authenticated %}
+           for this recording are only available to visitors of Special Collections at James Madison University.
+        {% else %}
+           are only available for members of the JMU community.
+           Please <a href="{% url login %}?next={% url snp-interview interview_number %}">log in</a>.
+        {% endif %}
       {% endif %}
     {% endif %}
         </p>

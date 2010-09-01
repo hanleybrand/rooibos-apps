@@ -137,12 +137,45 @@ def interview(request, number):
                                             field__label='Description',
                                             ).values_list('value', flat=True)
 
+    storages = filter_by_access(request.user, Storage)
+    media = record.media_set.filter(master=None, storage__in=storages)
+
+    image = filter(lambda m: m.mimetype == 'image/jpeg', media)
 
     return render_to_response('snp-interview.html',
                               {'record': record,
                                'description': description[0] if description else None,
                                'interview_number': number,
                                'has_audio_transcript': AudioTextSync().analyze(record, request.user) == FULL_SUPPORT,
+                               'has_media': len(media) > 0,
+                               'image': image[0] if image else None,
+                               },
+                              context_instance=RequestContext(request))
+
+
+def media(request, number):
+
+    LABELS = {
+        'application/pdf': 'View PDF',
+        'image/jpeg': 'View Image',
+        'text/plain': 'View Text',
+        'audio/mpeg': 'Listen to Audio',
+    }
+
+    collection = Collection.objects.get(name='shenandoah-national-park')
+    record = get_object_or_404(FieldValue,
+                               record__collection=collection,
+                               field__label='Identifier',
+                               value=number).record
+
+    storages = filter_by_access(request.user, Storage)
+    media = record.media_set.filter(master=None, storage__in=storages)
+    labels = [LABELS.get(m.mimetype, 'Download file') for m in media]
+
+    return render_to_response('snp-media.html',
+                              {'record': record,
+                               'interview_number': number,
+                               'media': zip(media, labels),
                                },
                               context_instance=RequestContext(request))
 
