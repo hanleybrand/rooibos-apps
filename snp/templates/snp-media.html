@@ -1,0 +1,35 @@
+{% extends "snp.html" %}
+{% load data %}
+{% load ui %}
+
+
+{% block content %}
+
+
+<!-- Bread Crumbs  -->
+      <p style="margin-top:0;">
+      <a href="http://www.lib.jmu.edu/special/research/oralhistoryhome.aspx">Oral Histories </a>
+      &gt; <a href="{% url snp-main %}"> SNP Collection</a>
+      &gt; <a href=".">{{ record.title }}</a>
+
+      </p>
+
+       <h2 align="center" style="margin-bottom: 0;">Shenandoah National Park Oral History Collection<br></h2>
+       <h3 align="center" style="margin-top:0">{{ record.title }} </h3>
+
+    {% for m, label in media %}
+      {% ifequal m.mimetype "image/jpeg" %}
+        <img style="float: right; width: 300px;" src="{{ m.get_absolute_url }}" />
+      {% endifequal %}
+    {% endfor %}
+
+    <strong>Available Media<strong><br /><br />
+
+    {% for m, label in media %}
+
+    <a href="{{ m.get_absolute_url }}">{{ label }}</a> ({{ m.mimetype }})<br />
+
+    {% endfor %}
+
+
+{% endblock %}
