@@ -22,7 +22,7 @@
 
 
 {% block raw-content %}
-    <div id="content-wrapper">        
+    <div id="content-wrapper">
         <div id="content">
             <div style="margin-top: -40px; position: relative; z-index: 999;">
             <img src="{% url furiousflower-static 'logo.png' %}"/>
@@ -45,6 +45,10 @@
 {% block footer %}
             <br style="clear: both;" />
             <div id="footer">
+                <div  style="float: right; position: relative; top: -10px;"><a href="{% url about %}">
+                <img src="{% url static 'images/powered_by_mdid.png' %}" style="width: 86px; height: 30px;"
+                alt="Powered by MDID" />
+                </a></div>
                 Copyright 1997-2010 James Madison University
             </div>
 {% endblock %}
@@ -59,14 +63,14 @@
         <ul>
             <li><a href="http://www.jmu.edu/furiousflower/">Furious Flower Poetry Center</a></li>
         </ul>
-    </div>    
-    
+    </div>
+
     <div id="header-bar">
         <div class="spacer">
             <div id="header">
-                
+
             </div>
-        </div>        
+        </div>
     </div>
 {% endblock %}
 
