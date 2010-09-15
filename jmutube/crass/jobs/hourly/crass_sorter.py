@@ -18,9 +18,9 @@ class Job(HourlyJob):
     def execute(self):
         storage = get_jmutube_storage()
         logging.info('CRASS sorter starting')
-        for file in os.listdir(settings.JMUTUBE_CRASS_MISC_FOLDER):
+        for file in os.listdir(settings.JMUTUBE_CRASS_INCOMING_FOLDER):
         
-            age = time.time() - os.path.getmtime(os.path.join(settings.JMUTUBE_CRASS_MISC_FOLDER, file))
+            age = time.time() - os.path.getmtime(os.path.join(settings.JMUTUBE_CRASS_INCOMING_FOLDER, file))
             if age < 600:
                 logging.debug('CRASS skipping file %s with age %s' % (file, age))
                 continue
@@ -45,7 +45,7 @@ class Job(HourlyJob):
                     # add mapping log entry
                     Mapping.objects.create(source_file=file, target_file=newname, user=schedule.user)
                     # move file
-                    shutil.move(os.path.join(settings.JMUTUBE_CRASS_MISC_FOLDER, file), storage.storage_system.path(newname))
+                    shutil.move(os.path.join(settings.JMUTUBE_CRASS_INCOMING_FOLDER, file), storage.storage_system.path(newname))
                     # add file entry
                     record = storage.storage_system.create_record_for_file(schedule.user, newname, 'video')
                     # add tags
