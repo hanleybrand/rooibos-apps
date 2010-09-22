@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 
 <link href="https://www.lib.jmu.edu/css/create-list.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="{% url static 'jquery/jquery-1.4.1.js' %}"></script>
+
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -67,12 +67,131 @@ function MM_nbGroup(event, grpName) { //v6.0
   } }
 }
 //-->
-
 </script>
+
+<script>
+<!--  WIDGET CODE
+LEO = "http://leo.jmu.edu/search/X";
+PL = "http://uw8rw3ad9q.search.serialssolutions.com/?V=1.0&N=100&L=UW8RW3AD9Q&S=T_W_A&C=";
+RD = "http://search.lib.jmu.edu/cgi/texis.exe/Webinator/search?pr=research_databases&prox=page&rorder=500&rprox=500&rdfreq=500&rwfreq=500&rlead=500&sufs=0&order=r&query=";
+Site = "http://search.lib.jmu.edu/cgi/texis.exe/Webinator/search?pr=WWW&prox=page&rorder=500&rprox=500&rdfreq=500&rwfreq=500&rlead=500&sufs=0&query=";
+var got=0;
+var url="";
+var plus="";
+var mag="";
+
+
+function search4(item){
+        stringPlus();
+        resultsWindow.document.open();
+        resultsWindow.document.write("<head><title>Close this window to return to Total Search</title></head>");
+        resultsWindow.document.write("<FRAMESET ROWS=50%,50%><FRAMESET COLS=50%,50%><FRAME NAME='frame0' SRC='" + computeFrameSrc(0) + "'><FRAME NAME='frame1' SRC='" + computeFrameSrc(1) + "'></FRAMESET>");
+        resultsWindow.document.write("<FRAMESET COLS=50%,50%><FRAME NAME='frame2' SRC='" + computeFrameSrc(2) + "'><FRAME NAME='frame3' SRC='" + computeFrameSrc(3) + "'></FRAMESET></FRAMESET>");
+        resultsWindow.document.close();
+        got = 0;
+}
+
+function search2(item){
+        stringPlus();
+        resultsWindow.document.open();
+        resultsWindow.document.write("<head><title>Close this window to return to Total Search</title></head>");
+        resultsWindow.document.write("<FRAMESET ROWS=50%,50%><FRAME NAME='frame0' SRC='" + computeFrameSrc(0) + "'><FRAME NAME='frame1' SRC='" + computeFrameSrc(1) + "'></FRAMESET>");
+        resultsWindow.document.close();
+        got = 0;
+}
+
+function stringPlus(){
+        for (var j=0; j < window.document.choose4.text.value.length; j++){
+                if (window.document.choose4.text.value.charAt(j) == " ")
+                        mag += "+";
+                else
+                        mag += window.document.choose4.text.value.charAt(j);}
+}
+
+function numChecked(item){
+        plus = escape(item.text.value);
+        var h=0;
+        num=0;
+        for (var l=0; l < item.check1.length; l++) {
+                if (item.check1[l].checked){
+                                h++;
+                        if (h++ <= 4){
+                                if (l == "0"){
+                                         num = 1;}
+                                else if (l == "1"){
+                                        num = 2;}
+                                else if (l == "2"){
+                                        num = 3;}
+                                else if (l == "3"){
+                                        num = 4;}
+
+                                }
+                }
+        }
+        if (h == 2)
+                Results(num-1);
+        else if (h == 4)
+                search2(item);
+        else
+                search4(item);
+}
+
+function computeFrameSrc(num){
+        var k=-1;
+        for (var j=got; j < document.choose4.check1.length; j++) {
+                if (document.choose4.check1[j].checked){
+                                k++;
+                        if (k++ <= num){
+                                if (j == "0"){
+                                        url = LEO + plus;
+                                        got = 1;}
+                                else if (j == "1"){
+                                        url = PL + plus;
+                                        got = 2;}
+                                else if (j == "2"){
+                                        url = RD + plus + "&submit=Submit";
+                                        got = 3;}
+                                else if (j == "3"){
+                                        url = Site + plus + "&cq=&submit=Submit";
+                                        got = 4;}
+                                return url;
+                                }
+                }
+        }
+        url = "defaultx4a.asp";
+        return url;
+}
+
+function Results(place){
+        stringPlus();
+        resultsWin = self;
+        if (place == "0")
+                url = LEO + plus;
+        else if (place == "1")
+                url = PL + plus;
+        else if (place == "2")
+                url = RD + plus + "&submit=Submit";
+        else if (place == "3")
+                url = Site + plus + "&cq=&submit=Submit";
+        resultsWin.location = url;
+}
+
+function MM_jumpMenu(targ,selObj,restore){ //v3.0
+  eval(targ+".location='"+selObj.options[selObj.selectedIndex].value+"'");
+  if (restore) selObj.selectedIndex=0;
+}
+//-->
+</script>
+
+<!--/*******************************************************/
+/* JMU Libraries & Educational Technologies                */
+/* (c)2010                                                   */
+/* Oral History CSS Code Generated by: Harper Holsinger    */
+/*********************************************************/-->
 
 <style type="text/css">
 /***********************************************/
-/* Begin CSS CODE CONTENT                      */
+/* Wider Homepage Content                      */
 /***********************************************/
 body,td,th { font-family: Arial, Helvetica, sans-serif; }
 body {
@@ -92,7 +211,7 @@ body {
 	padding: 0px 0px 15px 0px;
 	font: 83% Arial, Helvetica, sans-serif;
 	}
-	
+
 #leftnav h3 {
 	font: 100% Arial, Helvetica, sans-serif;
 	font-weight: bold;
@@ -106,23 +225,28 @@ body {
 	margin: 0px 5px;
 	padding: 0;
 	}
-	
+
 #leftnav ul li {
 	line-height: 1.3em;
-	}	
+	}
+tr.greyRow td {
+	background-color: #DDDDDD; color: black;
+}
+
+
 #float_leftOralHistories {
-	float: left;
-	width: 470px;
-	margin: 0;
-	padding: 0 0 0 0;
-	}
+       float: left;
+       width: 470px;
+       margin: 0;
+       padding: 0 0 0 0;
+       }
 #float_rightOralHistories {
-	position:relative;
-	margin: 0 0px 0 480px;
-	z-index: 2;
-	width: 330px;
-	padding: 0;	
-	}
+       position:relative;
+       margin: 0 0px 0 480px;
+       z-index: 2;
+       width: 330px;
+       padding: 0;
+       }
 #restrictedResults {
 color:#FF0000;
 font-weight:bold;
@@ -166,13 +290,11 @@ div.metadata-subitem div.label {
     visibility: hidden;
 }
 
-/***********************************************/
-/* End CSS CODE CONTENT                        */
-/***********************************************/
 </style>
 
-{% block stylesheets %}
-{% endblock %}
+
+	<script type="text/javascript" src="https://www.lib.jmu.edu/include/sni-core.js"></script>
+	<script type="text/javascript" src="https://www.lib.jmu.edu/include/sni-food.js"></script>
 
 <script>
 <!--
@@ -183,7 +305,15 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 //-->
 </script>
 
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript" src="{% url static 'jquery/jquery-1.4.1.js' %}"></script>
+<script type="text/javascript" src="{% url static 'jquery/jquery.scrollTo-1.4.2-min.js' %}"></script>
+<script type="text/javascript" src="{% url static 'jquery/jquery.ajaxmanager.js' %}"></script>
+<script type="text/javascript">
+	var ajaxManager = $.manageAjax.create('cacheQueue', { queue: true });
+</script>
+
+{% block javascript %}
+{% endblock %}
 
 <link rel="stylesheet" type="text/css" href="https://www.lib.jmu.edu/css/jkmegamenu.css" />
 
@@ -196,12 +326,7 @@ jkmegamenu.definemenu("HelpDD", "megamenu2", "mouseover")
 jkmegamenu.definemenu("ResearchDD", "megamenu3", "mouseover")
 jkmegamenu.definemenu("ServicesDD", "megamenu4", "mouseover")
 
-
 </script>
-
-{% block javascript %}
-{% endblock %}
-
 <link href="https://www.lib.jmu.edu/css/widerHompage.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -211,45 +336,38 @@ jkmegamenu.definemenu("ServicesDD", "megamenu4", "mouseover")
 
 	<a href="#CitationResults" accesskey="C" title="Access Key = C to Skip to Page Content.">Skip to content</a>
 
-	<h1><a href="/" accesskey="H" title="Access Key = H to Return to Home Page.">
+	<h1><a href="http://www.lib.jmu.edu/" accesskey="H" title="Access Key = H to Return to Home Page.">
     <span>James Madison University<br />
-
   Libraries</span></a></h1>
-	
+
 <div class="headerlinks">
     	<ul style="margin-bottom: 0">
-        <li><a href="http://www.jmu.edu" accesskey="J" title="Access Key = J to Go to JMU Home Page.">JMU Home </a>	
+        <li><a href="http://www.jmu.edu" accesskey="J" title="Access Key = J to Go to JMU Home Page.">JMU Home </a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="http://www.lib.jmu.edu/search.aspx" accesskey="S" title="Access Key = S to Go to Site Search.">Search </a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="http://www.lib.jmu.edu/info/faqscategory.aspx?id=1" accesskey="F" title="Access Key = F to Go to Frequently Asked Questions.">FAQ</a>
-
 &nbsp;&nbsp;        </li>
         </ul>
   </div>
 
 	<h2><span></span></h2>
 
-	<div id="quick-linksWiderHomepage">
+	<div id="quick-linksWiderHomepage" min-height:420px;>
 		    <select onchange="MM_jumpMenu('parent',this,0)" size="1" name="subject_menu" style="font-size:92%;">
       <option selected value="">&#8212; Quick Links &#8212;</option>
-
-	  <option value=""></option>
-	  
 	  <option class="quick_links_header" value="">&#8212; Locations &#8212;</option>
 	  <option value="http://www.lib.jmu.edu/">Carrier Library</option>
 	  <option value="http://www.lib.jmu.edu/">East Campus Library</option>
 	  <option value="http://www.lib.jmu.edu/media/">Media Resources</option>
 	  <option value="http://www.jmu.edu/coe/etmc/">Memorial Hall-ETMC</option>
-
 	  <option value="http://www.lib.jmu.edu/music/">Music Library</option>
 	  <option value="http://www.lib.jmu.edu/special/">Special Collections</option>
 	  <option value="http://cit.jmu.edu/cit/">Center for Instructional </option>
 	     <option value="http://cit.jmu.edu/cit/">&nbsp;&nbsp;&nbsp;Technology</option>
 	  <option value=""></option>
-	  
-	  <option class="quick_links_header" value="">&#8212; Research &#8212;</option>
 
+	  <option class="quick_links_header" value="">&#8212; Research &#8212;</option>
 	  <option value="http://leo.jmu.edu/search">LEO Library Catalog</option>
 	  <option value="http://leo.jmu.edu/patroninfo/">My LEO</option>
 	  <option value="http://www.lib.jmu.edu/journals/">Periodical Locator</option>
@@ -257,7 +375,6 @@ jkmegamenu.definemenu("ServicesDD", "megamenu4", "mouseover")
 	  <option value="http://www.lib.jmu.edu/guides/default.aspx">Subject Guides</option>
 	  <option value=""></option>
 
-	  
 	  <option class="quick_links_header" value="">&#8212; Services &#8212;</option>
 	  <option value="http://blackboard.jmu.edu">Blackboard</option>
 	  <option value="http://www.lib.jmu.edu/groupstudies/book/">Book a Group Study</option>
@@ -265,9 +382,8 @@ jkmegamenu.definemenu("ServicesDD", "megamenu4", "mouseover")
 	  <option value="http://www.lib.jmu.edu/media/services/technology_classrooms/tc.aspx">Technology Classrooms</option>
 	  <option value=""></option>
 
-	  
-	  
-	  
+
+
 	  <option class="quick_links_header" value="">&#8212; Help &#8212;</option>
       <option value="http://www.lib.jmu.edu/help/ask.aspx">Ask a Librarian</option>
       <option value="http://www.lib.jmu.edu/proxy/default.aspx">Connect from Home</option>
@@ -278,62 +394,60 @@ jkmegamenu.definemenu("ServicesDD", "megamenu4", "mouseover")
 	  <option class="quick_links_header" value="">&#8212; Cite Sources &#8212;</option>
 	  <option value="http://www.lib.jmu.edu/help/checkcite/">CheckCite</option>
 	  <option value="http://www.refworks.com/refworks">RefWorks&copy;</option>
-	  
+
 	  <option value=""></option>
 	  <option class="quick_links_header"value="">&#8212; JMU Links &#8212;</option>
-
       <option value="http://www.jmu.edu">JMU Home</option>
 	  <option value="http://ecampus.jmu.edu">eCampus</option>
       <option value="http://webmail.jmu.edu">JMU WebMail</option>
      </select>
- 
+
   </div>
 </div>
 
 <div id="toplinksWiderHomepage">
  &nbsp;&nbsp;&nbsp;
+   <a href="http://www.lib.jmu.edu/research/" id="ResearchDD">Research</a> | <a href="http://www.lib.jmu.edu/services/" id="ServicesDD">Services</a> | <a href="http://www.lib.jmu.edu/help/" id="HelpDD">Help</a> | <a href="http://www.lib.jmu.edu/about_us/default.aspx" id="AboutUsDD">About Us</a></p>
+   <span style="position:absolute;top:7px;right:180px;"><a href="http://www.lib.jmu.edu/about_us/locationsandhours.aspx">Hours, Contacts &amp; Maps</a></span></div>
+   <!--Mega Menu Anchor-->
 
-   <a href="http://www.lib.jmu.edu/research/" id="ResearchDD">Research</a> | <a href="http://www.lib.jmu.edu/services/" id="ServicesDD">Services</a> | <a href="http://www.lib.jmu.edu/help/" id="HelpDD">Help</a></p>
-   <span style="position:absolute;top:7px;right:180px;"><a href="http://www.lib.jmu.edu/about_us/locationsandhours.aspx">Hours, Maps & Contacts</a></span></div>
-   
-<!--Mega Menu Anchor-->
+
+
+
 <!--Mega Drop Down Menu HTML. Retain given CSS classes-->
 <div id="megamenu1" class="megamenu">
 
 <div class="column">
 	<h3>Quick Facts</h3>
-	<ul>
-	<li><a href="http://www.lib.jmu.edu/about_us/stackguide.aspx">Library Maps</a></li>
+	<ul style="margin-bottom: 0;">
 	<li><a href="http://www.lib.jmu.edu/about_us/collections.aspx">Collections</a></li>
-	<li><a href="http://www.lib.jmu.edu/about_us/contact.aspx">Contact Information</a></li>
+	<li><a href="http://www.lib.jmu.edu/about_us/locationsandhours.aspx">Hours, Contacts &amp; Maps</a></li>
+	<li><a href="http://www.lib.jmu.edu/about_us/stackguide.aspx">Stack Guide &amp; Floor Plans</a></li>
 	<li><a href="http://www.lib.jmu.edu/staffdir/">Staff Directory</a></li>
-
+	<li><a href="http://www.lib.jmu.edu/circulation/directions.aspx">Visitor Information</a></li>
 	</ul>
 </div>
 
 <div class="column">
 	<h3>News</h3>
-	<ul>
-	<li><a href="http://www.lib.jmu.edu/exhibits/default.aspx">Exhibits</a></li>
+	<ul style="margin-bottom: 0;">
+    <li><a href="http://www.lib.jmu.edu/exhibits/default.aspx">Exhibits</a></li>
 	<li><a href="http://www.lib.jmu.edu/info/fcs.aspx">Features</a></li>
-	<li><a href="http://www.lib.jmu.edu/employment/">Jobs &amp; Internships</a></li>
-
 	<li><a href="http://www.lib.jmu.edu/edge/">Knowledge Edge</a></li>
 	<li><a href="http://www.lib.jmu.edu/new_titles/">New Titles</a></li>
 	<li><a href="http://www.lib.jmu.edu/info/news.aspx">News</a></li>
+    <li><a href="http://www.lib.jmu.edu/employment/">Working at JMU Libraries</a></li>
 	</ul>
 </div>
 
 <div class="column">
 	<h3>Policies &amp; Planning</h3>
-
-	<ul>
+	<ul style="margin-bottom: 0;">
 	<li><a href="http://www.lib.jmu.edu/about_us/giving.aspx">Giving to JMU Libraries</a></li>
 	<li><a href="http://www.lib.jmu.edu/libqual/">LibQUAL</a></li>
 	<li><a href="http://www.lib.jmu.edu/about_us/policies/">Policies</a></li>
 	<li><a href="http://www.lib.jmu.edu/plan/">Strategic Plan</a></li>
 	<li><a href="http://www.lib.jmu.edu/sac/">Student Adv. Cmte.</a></li>
-
 	<li><a href="http://www.lib.jmu.edu/viva/">VIVA</a></li>
 	</ul>
 </div>
@@ -343,25 +457,34 @@ jkmegamenu.definemenu("ServicesDD", "megamenu4", "mouseover")
 
 <div class="column">
 	<h3>Help</h3>
-	<ul>
+	<ul style="margin-bottom: 0;">
 	<li><a href="http://www.lib.jmu.edu/help/ask.aspx">Ask a Librarian</a></li>
-
-	<li><a href="http://www.lib.jmu.edu/help/checkcite/">CheckCite</a></li>
 	<li><a href="http://www.lib.jmu.edu/info/faqs.aspx">FAQs</a></li>
 	<li><a href="http://www.lib.jmu.edu/guides/default.aspx">Subject Guides</a></li>
+
+	</ul>
+   <h3>Cite Your Sources</h3>
+	<ul style="margin-bottom: 0;">
+	<li><a href="http://www.lib.jmu.edu/help/checkcite/">CheckCite</a></li>
+	<li><a href="http://www.lib.jmu.edu/resources/more.aspx?id=1559">RefWorks</a></li>
+	<li><a href="http://www.lib.jmu.edu/quick/style_manuals.aspx">More Citing Tools</a></li>
 	</ul>
 </div>
 
 <div class="column">
 	<h3>Just for...</h3>
-
-	<ul>
-	<li><a href="http://www.lib.jmu.edu/forstudents/">Undergrad. Students</a></li>
+	<ul style="margin-bottom: 0;">
+	<li><a href="http://www.lib.jmu.edu/forstudents/">Undergraduates</a></li>
 	<li><a href="http://www.lib.jmu.edu/forstudents/GraduateStudentGuide.aspx">Graduate Students</a></li>
 	<li><a href="http://www.lib.jmu.edu/distance/">Off Campus</a></li>
 	<li><a href="http://www.lib.jmu.edu/faculty/">Faculty</a></li>
 	<li><a href="http://www.lib.jmu.edu/services/staffinfo.aspx">Staff</a></li>
+	</ul>
 
+    <h3>Special Topics</h3>
+	<ul style="margin-bottom: 0;">
+	<li><a href="http://www.lib.jmu.edu/copyright/about.aspx">Copyright Information</a></li>
+	<li><a href="http://www.lib.jmu.edu/east/nihpublicaccesspolicy.aspx">NIH Public Access Policy</a></li>
 	</ul>
 </div>
 </div>
@@ -370,23 +493,24 @@ jkmegamenu.definemenu("ServicesDD", "megamenu4", "mouseover")
 
 <div class="column">
 	<h3>Research Tools</h3>
-	<ul>
-	<li><a href="http://www.lib.jmu.edu/internet/">Internet Search</a></li>
+	<ul style="margin-bottom: 0;">
 	<li><a href="http://leo.jmu.edu">LEO Library Catalog</a></li>
-
 	<li><a href="http://www.lib.jmu.edu/journals/">Periodical Locator</a></li>
-	<li><a href="http://www.lib.jmu.edu/quick/">Quick Reference</a></li>
 	<li><a href="http://www.lib.jmu.edu/databases/">Research Databases</a></li>
 	<li><a href="http://www.lib.jmu.edu/guides/">Subject Guides</a></li>
 	</ul>
 </div>
 
 <div class="column">
-
-	<h3>Productivity Tools</h3>
-	<ul>
-	<li><a href="http://www.lib.jmu.edu/research/libx.aspx">LibX Browser Extension</a></li>
+<h3>Cite Your Sources</h3>
+	<ul style="margin-bottom: 0;">
+	<li><a href="http://www.lib.jmu.edu/help/checkcite/">CheckCite</a></li>
 	<li><a href="http://www.lib.jmu.edu/resources/more.aspx?id=1559">RefWorks</a></li>
+	</ul>
+	<h3>Productivity Tools</h3>
+	<ul style="margin-bottom: 0;">
+	<li><a href="http://www.lib.jmu.edu/research/alerts.aspx">Alerts &amp; Saved Searches</a></li>
+	<li><a href="http://www.lib.jmu.edu/research/libx.aspx">LibX Browser Extension</a></li>
 	</ul>
 </div>
 </div>
@@ -395,46 +519,44 @@ jkmegamenu.definemenu("ServicesDD", "megamenu4", "mouseover")
 
 <div class="column">
 	<h3>Libraries</h3>
-	<ul>
+	<ul style="margin-bottom: 0;">
+    <li><a href="http://www.lib.jmu.edu/groupstudies/book/">Book a Group Study</a></li>
 	<li><a href="http://www.lib.jmu.edu/circulation/default.aspx">Checkouts and Renewals</a></li>
-	<li><a href="https://leo.jmu.edu/patroninfo~S0/">My LEO</a></li>
-	<li><a href="http://www.lib.jmu.edu/reserves/default.aspx">Course Reserves / eReserves</a></li>
+    <li><a href="http://www.lib.jmu.edu/proxy/">Connect from Off Campus</a></li>
+	<li><a href="http://www.lib.jmu.edu/reserves/default.aspx">Course Reserves</a></li>
+    <li><a href="https://illiad.lib.jmu.edu/illiad/">Interlibrary Loan</a></li>
+	<li><a href="http://www.lib.jmu.edu/laptops/">Laptops &amp; Equipment</a></li>
+    <li><a href="http://www.lib.jmu.edu/instruction/liaison.aspx">Liaison Program</a></li>
 	<li><a href="http://www.lib.jmu.edu/services/librarydelivery.aspx">Library Delivery</a></li>
-
-	<li><a href="http://www.lib.jmu.edu/proxy/">Connect from Off Campus and Home</a></li>
-	<li><a href="https://illiad.lib.jmu.edu/illiad/">Interlibrary Loan / Borrow from Another Library</a></li>
-	<li><a href="http://www.lib.jmu.edu/services/purchase_request.aspx">Request a Purchase</a></li>
 	<li><a href="http://www.lib.jmu.edu/instruction/default.aspx">Library Instruction</a></li>
-	<li><a href="http://www.lib.jmu.edu/groupstudies/book/">Book a Group Study</a></li>
-	<li><a href="http://www.lib.jmu.edu/instruction/liaison.aspx">Liaison Program</a></li>
-
-	<li><a href="http://www.lib.jmu.edu/microforms/">Microforms</a></li>
+    <li><a href="http://www.lib.jmu.edu/microforms/">Microforms</a></li>
+    <li><a href="https://leo.jmu.edu/patroninfo~S0/">My LEO</a></li>
+    <li><a href="https://leo.jmu.edu/patroninfo~S0/">Reading History (My LEO)</a></li>
+    <li><a href="https://leo.jmu.edu/patroninfo~S0/">Renew (My LEO)</a></li>
+    <li><a href="http://www.lib.jmu.edu/services/purchase_request.aspx">Request a Purchase</a></li>
 	</ul>
 </div>
 
 <div class="column">
 	<h3>Educational Technologies</h3>
-	<ul>
+	<ul style="margin-bottom: 0;">
 	<li><a href="http://www.lib.jmu.edu/media/services/audiovideotaping.aspx">Audio and Videotaping</a></li>
 	<li><a href="http://www.lib.jmu.edu/media/services/equipment/equipmentloansrentals.aspx">Equipment Loans</a></li>
-
 	<li><a href="http://www.lib.jmu.edu/media/services/equipment/equipconsultrepair.aspx">Equipment Consultation &amp; Repair</a></li>
 	<li><a href="http://cit.jmu.edu/">Instructional Technology</a> (external link)</li>
 	<li><a href="http://www.jmu.edu/computing/labs/forms/softwareinstall.shtml">Software Installation Requests</a> (external link)</li>
 	<li><a href="http://www.lib.jmu.edu/media/services/technology_classrooms/tc.aspx">Technology Classrooms</a></li>
-
 	<li><a href="http://www.lib.jmu.edu/media/services/equipment/viewingroomscarrels.aspx">Viewing Rooms / Carrels</a></li>
 	</ul>
 </div>
 </div>
 
 <div id="widerFullpageHeader">
-   <a href="/special/"><img src="https://www.lib.jmu.edu/images/special-collections-masthead.gif" alt="Special Collections" border="0" /></a></div>
+   <a href="http://www.lib.jmu.edu/special/"><img src="https://www.lib.jmu.edu/images/special-collections-masthead.gif" alt="Special Collections" border="0" /></a></div>
 
 <div id="containerWiderSubpage">
 	<div id="leftnav">
 			<h3><a href="http://www.lib.jmu.edu/special/default.aspx">Special Collections</a></h3>
-
 	<ul>
 	  <li><a href="http://www.lib.jmu.edu/special/services/visitorinfo.aspx">Visitor Information </a></li>
 	</ul>
@@ -442,14 +564,12 @@ jkmegamenu.definemenu("ServicesDD", "megamenu4", "mouseover")
 	<ul>
 	  <li><a href="http://www.lib.jmu.edu/special/manuscripts/manuscripts.aspx">Manuscripts</a></li>
 	  <li><a href="http://www.lib.jmu.edu/special/research/books.aspx">Rare Books/Periodicals </a></li>
-
 	  <li><a href="http://www.lib.jmu.edu/special/jmuhistorical/aboutjmu.aspx">JMU Historical Collection </a></li>
 	  <li><a href="http://www.lib.jmu.edu/special/research/oralhistoryhome.aspx">Oral Histories</a></li>
 	</ul>
 	<h3>Preservation &amp; Value</h3>
 	<ul>
 	  <li><a href="http://www.lib.jmu.edu/special/services/appraisers.aspx">Appraisers/Conservators</a></li>
-
 	  <li><a href="http://www.lib.jmu.edu/special/services/homepres.aspx">Tips for Home Care </a></li>
 	  <li><a href="http://www.lib.jmu.edu/special/services/burruss/BurrussGrants.aspx">Burruss Historical Research Grants </a></li>
 	  <li><a href="http://www.lib.jmu.edu/special/services/internships.aspx">Internships</a></li>
@@ -458,36 +578,45 @@ jkmegamenu.definemenu("ServicesDD", "megamenu4", "mouseover")
 	</div>
 
 	<div id="contentWiderSubpage">
-	
 
-{% block content %}	  
-	  
+
+{% block content %}
+
 
 {% endblock %}
 
-
+</div>
+<div style="clear:both;"></div>
 </div>
 
- <div style="clear:both;"></div>
 
-<div id="bottomlinksWiderHomepage">
-  <a href="http://www.lib.jmu.edu/about_us/">About Us</a> | <a href="http://www.lib.jmu.edu/info/rss/"><img src="https://www.lib.jmu.edu/images/rss.gif" alt="RSS" width="36" height="14" border="0" /></a></div>
+
+   <div style="clear:both;"></div>
+
+<div id="bottomlinksWiderHomepage">&nbsp;&nbsp;</div>
 
 <div id="footerWiderHomepage">
 
-<p>JMU Libraries | MSC 1704 | Harrisonburg, VA, 22807| Last updated: <asp:Label ID="lblLastMod" runat="server" /><br />
-<span>This page may be monitored with Google Analytics</span>.<br/>
-<span class="footerlinks"><a href="http://www.lib.jmu.edu/copyright/default.aspx" >&copy;<asp:Label ID="lblYear" runat="server" /></a> | <a href="http://www.lib.jmu.edu/policies/ElectronicResourcesTermsandConditions.aspx">Electronic Resources Terms &amp; Conditions</a> | <a href="http://www.jmu.edu/jmuweb/privacy.shtml" target="_blank">JMU Privacy Statement</a><br />
+<div style="font-size:100%; text-align:center;"><a href="http://www.lib.jmu.edu/about_us/contact.aspx" onClick="javascript:pageTracker._trackPageview('/frontpage/contactUsfooter')">Contact Us</a> | <a href="http://www.lib.jmu.edu/forms/comments.aspx" onClick="javascript:pageTracker._trackPageview('/frontpage/contactWebmaster')">Contact Webmaster</a> | <a href="http://www.lib.jmu.edu/about_us/giving.aspx" onClick="javascript:pageTracker._trackPageview('/frontpage/GivingtoJMULibraries')">Giving to JMU Libraries</a> | <a href="http://www.lib.jmu.edu/staffdir/default.aspx" onClick="javascript:pageTracker._trackPageview('/frontpage/StaffDirectory')">Staff Directory</a> | <a href="http://www.lib.jmu.edu/employment/default.aspx" onClick="javascript:pageTracker._trackPageview('/frontpage/Employment')">Working at JMU Libraries</a><br /></div>
 
-<a href="http://www.lib.jmu.eduabout_us/contact.aspx">Contact Us</a> | <a href="http://www.lib.jmu.edu/forms/comments.aspx">Contact Webmaster</a></span></p>
+<p><span class="footerlinks" style="font-size:113%;"><br />
+<a href="http://www.lib.jmu.edu/copyright/default.aspx" >&copy;2010</a> | <a href="http://www.lib.jmu.edu/policies/ElectronicResourcesTermsandConditions.aspx" onClick="javascript:pageTracker._trackPageview('/frontpage/electronicResources')">Electronic Resources Terms &amp; Conditions</a> | <a href="http://www.jmu.edu/jmuweb/privacy.shtml" target="_blank" onClick="javascript:pageTracker._trackPageview('/frontpage/JMUPrivacyStatement')">JMU Privacy Statement</a><br />
+This page may be monitored with Google Analytics.</span></p>
 
-<a href="http://www.jmu.edu"><img src="https://www.lib.jmu.edu/images/footer_logo_purple2.gif" alt="James Madison University logo" /></a>
+<div style="position:absolute; right: 20px; top:0px;"><a href="http://www.jmu.edu"onclick="javascript:pageTracker._trackPageview('/frontpage/footerlogo')"><img src="http://www.lib.jmu.edu/images/footer_logo_purple2.gif" alt="James Madison University logo" border=0 /></a></div>
 </div>
 
+
+
 <div style="position: relative; margin:0 auto; padding:0; width:980px;">
-<div style="position:absolute; left: 20px; top:0px;"><a href="http://www.lib.jmu.edu/"><img src="https://www.lib.jmu.edu/images/letLogoGrayscale.gif" alt="Libraries and Educational Technologies logo" border="0" /></a></div></div>
+<div style="position:absolute; left: 20px; top:-55px;"><a href="http://www.lib.jmu.edu/" onClick="javascript:pageTracker._trackPageview('/frontpage/letfooterlogo')"><img src="http://www.lib.jmu.edu/images/letLogoGrayscale.gif" alt="Libraries and Educational Technologies logo" border="0" /></a></div></div>
 
 </div>
 <div style="clear:both;"></div>
+
+
+
+
+
 </body>
 </html>
