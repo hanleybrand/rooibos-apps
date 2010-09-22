@@ -44,108 +44,97 @@
 {% block javascript %}
 {{ block.super }}
 
-    <script type="text/javascript" src="{% url static 'soundmanager/script/soundmanager2.js' %}"></script>
+    <script type="text/javascript" src="{% url static 'audioplayer/audio-player-noswfobject-mdid.js' %}"></script>
 
     <script type="text/javascript">
 
-        var mySound;
         var lasttime;
         var lastscroll;
         var scrolltargets;
 
-        soundManager.url = '{% url static 'soundmanager/swf' %}';
-        soundManager.waitForWindowLoad = true;
-        soundManager.allowPolling = true;
-        soundManager.debugMode = false;
-        soundManager.useHighPerformance = false;
-        soundManager.useFastPolling = false;
-        soundManager.onload = function() {
-            mySound = soundManager.createSound({
-            id: 'aSound',
-            url: '{{ mp3url }}',
-            whileplaying: function() {
-                function zero(s) { return ("0" + s).substring(("0" + s).length - 2); }
-                var pos = parseInt(mySound.position / 1000);
-                var hrs = parseInt(pos / 3600);
-                var min = parseInt((pos % 3600) / 60);
-                var sec = pos % 60;
-                var time = zero(hrs) + ":" + zero(min) + ":" + zero(sec);
-                if (time != lasttime) {
-                    lasttime = time;
-                    $("#timer").text(time);
-                    if (!scrolltargets) scrolltargets = $("#transcript .play");
-                    var target;
-                    var targetid = "play-" + time.replace(/:/g, "-");
-                    for (var i = 0; i < scrolltargets.length; i++) {
-                        if (scrolltargets[i].id <= targetid) target = scrolltargets[i];
-                        else break;
-                    }
-                    if (target && (target != lastscroll)) {
-                        $("#transcript").scrollTo(target, 1000, {easing: 'swing'});
-                        lastscroll = target;
-                    }
-                }
-            }
-          });
+        function getPlayerTime() {
+            function zero(s) { return ("0" + s).substring(("0" + s).length - 2); }
+            var pos = parseInt(AudioPlayer.getHeadPosition('ap1') / 1000);
+            var hrs = parseInt(pos / 3600);
+            var min = parseInt((pos % 3600) / 60);
+            var sec = pos % 60;
+            return zero(hrs) + ":" + zero(min) + ":" + zero(sec);
         }
 
-        $(document).ready(function() {
-            $("#playpause").click(function() {
-                mySound.togglePause();
-                $("#playpause").val(mySound.paused ? "Play" : "Pause");
-            });
+        function scrollTranscript() {
+            var time = getPlayerTime();
+            if (time != lasttime) {
+                lasttime = time;
+                if (!scrolltargets) scrolltargets = jQuery("#transcript .play");
+                var target;
+                var targetid = "play-" + time.replace(/:/g, "-");
+                for (var i = 0; i < scrolltargets.length; i++) {
+                    if (scrolltargets[i].id <= targetid) target = scrolltargets[i];
+                    else break;
+                }
+                if (target && (target != lastscroll)) {
+                    jQuery("#transcript").scrollTo(target, 1000, {easing: 'swing'});
+                    lastscroll = target;
+                }
+            }
+        }
+
+        jQuery(document).ready(function() {
+
+
 
             var markers = Array(
                 {% for par,time in markers.iteritems %}[{{ par }},"{{ time }}"]{% if not forloop.last %},{% endif %}{% endfor %}
             );
-            var div = $("#transcript div");
+            var div = jQuery("#transcript div");
             for (var m in markers){
-                div.eq(markers[m][0]).prepend($("<span>").addClass("play").
+                div.eq(markers[m][0]).prepend(jQuery("<span>").addClass("play").
                                             attr("id", "play-" + markers[m][1].replace(/:/g, "-")).html("&#9658;")).
                                             attr("title", "Play from " + markers[m][1]);
             };
 
-            $(".play").click(function() {
-                var t = $(this).attr("id").substring(5).split("-");
+            jQuery(".play").click(function() {
+                var t = jQuery(this).attr("id").substring(5).split("-");
                 time = parseInt(t[0], 10) * 3600 + parseInt(t[1], 10) * 60 + parseInt(t[2], 10);
-                mySound.play();
-                setTimeout(function() { mySound.setPosition(time * 1000); }, 100)
-                $("#playpause").val("Pause");
+                AudioPlayer.moveHeadPosition('ap1', time * 1000);
+                AudioPlayer.playCurrentTrack('ap1');
             });
 
     {% if edit %}
-            var note = $("<input type='button' value='Marker'>");
-            $("#transcript div").hover(function() {
-                $(this).css("background-color", "#FFFFAA");
+            var note = jQuery("<input type='button' value='Marker'>");
+            jQuery("#transcript div").hover(function() {
+                jQuery(this).css("background-color", "#FFFFAA");
                 note.prependTo(this);
                 var div = this;
                 note.click(function() {
-                    var timer = $("#timer").text();
+                    var timer = getPlayerTime();
                     if (timer) {
-                        $(div).children(".marker").remove();
+                        jQuery(div).children(".marker").remove();
                         note.remove();
-                        $("#transcript").scrollTo(div, 1000, {easing: 'swing'});
+                        jQuery("#transcript").scrollTo(div, 1000, {easing: 'swing'});
                         ajaxManager.add({
                             type: 'POST',
                             url: '{% url viewers-audiotextsync-setmarker record.id, record.name %}',
                             data: {
-                                index: $("#transcript div").index(div),
+                                index: jQuery("#transcript div").index(div),
                                 time: timer
                                 },
                             dataType: 'json',
                             success: function(r) {
-                                $("#message").text(r.result + ": " + r.message);
-                                setTimeout(function() { $("#message").text(""); }, 5000);
-                                $("<span>").addClass("marker").text("[" + timer + "]").prependTo(div);
+                                jQuery("#message").text(r.result + ": " + r.message);
+                                setTimeout(function() { jQuery("#message").text(""); }, 5000);
+                                jQuery("<span>").addClass("marker").text("[" + timer + "]").prependTo(div);
                             }
                         });
                     }
                 });
             }, function() {
-                $(this).css("background-color", "");
+                jQuery(this).css("background-color", "");
                 note.remove();
             });
     {% endif %}
+
+            setInterval(scrollTranscript, 100);
         });
     </script>
 
@@ -170,8 +159,15 @@
 
 
 <div>
-    <input type="button" id="playpause" value="Play" />
-    <span id="timer"></span>
+
+<object type="application/x-shockwave-flash" data="{% url static 'audioplayer/player.swf' %}?rnd={% now "u" %}" id="ap1" height="24" width="500">
+<param name="movie" value="{% url static 'audioplayer/player.swf' %}?rnd={% now "u" %}">
+<param name="FlashVars" value="loader=98BDC6&playerID=ap1&animation=no&soundFile={{ mp3url }}&titles={{ record.title|urlencode }}">
+<param name="quality" value="high">
+<param name="menu" value="false">
+<param name="wmode" value="transparent">
+</object>
+
     <span id="message" style="color: red;"></span>
     <br /><br />
 </div>
