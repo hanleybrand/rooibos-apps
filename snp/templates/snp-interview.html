@@ -41,7 +41,7 @@
            for this recording are only available to visitors of Special Collections at James Madison University.
         {% else %}
            are only available for members of the JMU community.
-           Please <a href="{% url login %}?next={% url snp-interview interview_number %}">log in</a>.
+           Please <a href="{% url snp-login %}?next={% url snp-interview interview_number %}">log in</a>.
         {% endif %}
       {% endif %}
     {% endif %}
