@@ -1,16 +1,16 @@
 {% extends "snp.html" %}
 
-{% block content %}	  
-	  
-	 
-<!-- Bread Crumbs  -->     
+{% block content %}
+
+
+<!-- Bread Crumbs  -->
       <p style="margin-top:0;">
-      <a href="http://www.lib.jmu.edu/special/research/oralhistoryhome.aspx">Oral Histories </a> 
+      <a href="http://www.lib.jmu.edu/special/research/oralhistoryhome.aspx">Oral Histories </a>
       &gt; <a href="{% url snp-main %}"> SNP Collection</a>
       &gt; <a href="{% url snp-search %}"> Search Results</a>
 
       </p>
-      
+
       <h2 align="center">Shenandoah National Park Oral History Collection<br>
       </h2>
 
@@ -22,17 +22,27 @@
 
 <blockquote>
 
-  <p><strong>Search Results</strong></p>
+  <p><strong>Search Results{% if hits %} ({{ hits }} record{{ hits|pluralize }} found){% endif %}</strong></p>
 
-  <p>Items marked<span id="restrictedResults"> R</span> are restricted to visitors to Special Collections.</p>
- 
- <p>
- 
+
+  <p>Items marked<span class="restrictedResults"> R</span> are restricted to visitors to Special Collections.</p>
+
+{% if prev_page %}
+ <div>
+  <p class="alignleft"><a href="{% url snp-search %}?q={{ query|urlencode }}&p={{ prev_page }}"> &lt;&lt; Previous </a> </p>
+  <p class="alignright"><a href="{% url snp-search %}?q={{ query|urlencode }}&p={{ next_page }}"> Next  &gt;&gt; </a></p></p>
+</div>
+ {% endif %}
+
+ <p style="clear: right;">
+
  {% for result in results %}
- 
+
  <div class="topResults">
  <!-- Interviewee [100], Interview Number [440], Publisher Date [260?]  -->
-<strong> <a href="{% url snp-interview result.interview_number %}">{{ result.interviewee }}</a></strong> ({{ result.interview_number }}) <br />
+<strong> <a href="{% url snp-interview result.interview_number %}">{{ result.interviewee }}</a></strong>
+{% ifequal 'u' result.status %}<span class="restrictedResults">R</span>{% endifequal %}
+({{ result.interview_number }}) <br />
 
 {{ result.location_date }}  <br />
 </div>
@@ -46,16 +56,16 @@ Interviewer/Transcriber: {{ result.interviewer_transcriber }} <br />
 {% endfor %}
 
 </p>
- 
+
 {% if prev_page %}
  <div>
   <p class="alignleft"><a href="{% url snp-search %}?q={{ query|urlencode }}&p={{ prev_page }}"> &lt;&lt; Previous </a> </p>
   <p class="alignright"><a href="{% url snp-search %}?q={{ query|urlencode }}&p={{ next_page }}"> Next  &gt;&gt; </a></p></p>
 </div>
  {% endif %}
- 
+
   <div style="clear:both;"></div>
 
-  </blockquote>     
+  </blockquote>
 
 {% endblock %}

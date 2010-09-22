@@ -81,7 +81,7 @@ def search(request):
                                   label=f,
                                   value=v)]
 
-        prev_page = next_page = None
+        prev_page = next_page = hits = None
 
     else:
 
@@ -105,7 +105,9 @@ def search(request):
                    'Identifier': 'interview_number',
                    'Location/Date': 'location_date',
                    'Description': 'description',
-                   'Interviewer/Transcriber': 'interviewer_transcriber'}
+                   'Interviewer/Transcriber': 'interviewer_transcriber',
+                   'Status': 'status',
+                   }
 
         result = dict()
 
@@ -121,6 +123,7 @@ def search(request):
                                 'query': q,
                                 'prev_page': prev_page,
                                 'next_page': next_page,
+                                'hits': hits,
                                },
                               context_instance=RequestContext(request))
 
