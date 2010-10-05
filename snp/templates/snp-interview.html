@@ -27,13 +27,12 @@
         <p align="center">
 
     {% if has_media %}
-      <strong><a href="{% url snp-media interview_number %}"> View Media </a></strong> <br>
+      <a href="{% url snp-media interview_number %}"><img src="https://www.lib.jmu.edu/special/images/viewMedia.gif" alt="View Media" border="0" /></a> <br>
     {% endif %}
 
     {% if has_audio_transcript %}
-        <strong><a href="{% url snp-transcript interview_number %}"> Transcript and Audio </a></strong> <br>
         <a href="{% url snp-transcript interview_number %}">
-        <img src="https://www.lib.jmu.edu/special/images/listennowicon.gif" alt="Listen Now Button" border="0" /></a>
+        <img src="https://www.lib.jmu.edu/special/images/listennowicon.gif" alt="Listen Now" border="0" /></a>
     {% else %}
       {% if not has_media %}
       <span style="color: red;">
