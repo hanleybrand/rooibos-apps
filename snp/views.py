@@ -141,7 +141,7 @@ def interview(request, number):
                                             ).values_list('value', flat=True)
 
     storages = filter_by_access(request.user, Storage)
-    media = record.media_set.filter(master=None, storage__in=storages)
+    media = record.media_set.filter(storage__in=storages)
 
     image = filter(lambda m: m.mimetype == 'image/jpeg', media)
 
@@ -172,7 +172,7 @@ def media(request, number):
                                value=number).record
 
     storages = filter_by_access(request.user, Storage)
-    media = record.media_set.filter(master=None, storage__in=storages)
+    media = record.media_set.filter(storage__in=storages)
     labels = [LABELS.get(m.mimetype, 'Download file') for m in media]
 
     return render_to_response('snp-media.html',
