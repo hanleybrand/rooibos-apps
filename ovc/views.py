@@ -7,8 +7,9 @@ from rooibos.viewers.viewers.videoplayer import VideoPlayer
 
 @login_required
 def redirect_to_video(request, id):
-    collection = get_object_or_404(Collection, name='online-video-collection')
-    records = Record.by_fieldvalue(standardfield('identifier'), id)
+    id_fields = [standardfield('identifier')]
+    id_fields.extend(id_fields[0].get_equivalent_fields())
+    records = Record.by_fieldvalue(id_fields, id).filter(collection__name='online-video-collection')
     if not records:
         raise Http404()
     return HttpResponseRedirect(VideoPlayer().url_for_obj(records[0]))
