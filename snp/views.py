@@ -37,6 +37,8 @@ def browse(request):
 
     interview_numbers = dict(FieldValue.objects.filter(record__collection=collection,
                                                   field__label='Identifier').values_list('record__id', 'value'))
+    status = dict(FieldValue.objects.filter(record__collection=collection,
+                                                  label='Status').values_list('record__id', 'value'))
 
     def get_values(label):
         v = FieldValue.objects.filter(
@@ -45,6 +47,7 @@ def browse(request):
             ).annotate(min_record_id=Min('record__id')).values('value', 'min_record_id').annotate(num_records=Count('record__id')).order_by('value')
         for i in v:
             i['interview_number'] = interview_numbers.get(i['min_record_id'])
+            i['status'] = status.get(i['min_record_id'])
         return v
 
     interviewees = get_values('Interviewee')
