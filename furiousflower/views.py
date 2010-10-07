@@ -22,8 +22,8 @@ from rooibos.util import json_view
 from rooibos.viewers import NO_SUPPORT, PARTIAL_SUPPORT, FULL_SUPPORT
 
 
-def main(request):
-    collection = Collection.objects.get(name='furious-flower')
+def main(request, year='1994'):
+    collection = Collection.objects.get(name='furious-flower-%s' % year)
     relation_field = standardfield('relation')
     order = FieldValue.objects.filter(field=relation_field, record__collection=collection).values_list('record__id', 'value')
     order = sorted(order, key=lambda (r,o): int(o))
@@ -35,16 +35,16 @@ def main(request):
     sorted_records.extend(records.values())
 
     return render_to_response('furiousflower-main.html',
-                              {'records': sorted_records, },
+                              {'records': sorted_records, 
+                               'year': year,
+                               },
                               context_instance=RequestContext(request))
 
 
 
-def view(request, id, name):
+def view(request, year, id, name):
 
-    collection = Collection.objects.get(name='furious-flower')
-
-    record = get_object_or_404(Record.objects.filter(collection=collection, id=id).distinct())
+    record = get_object_or_404(Record, id=id)
 
     storage = Storage.objects.get(name='furious-flower')
 
@@ -55,5 +55,6 @@ def view(request, id, name):
     return render_to_response('furiousflower-view.html',
                               {'record': record,
                                'media': media[0],
+                               'year': year,
                                },
                               context_instance=RequestContext(request))

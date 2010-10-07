@@ -2,15 +2,20 @@
 
 {% block content %}
 
+<div style="float: right; text-align: right;">Conferences:<br />
+<a href="{% url furiousflower-main 1994 %}">1994</a><br />
+<a href="{% url furiousflower-main 2004 %}">2004</a>
+</div>
+
 <div>
-    <h1>1994 Furious Flower Conference</h1>
+    <h1>{{ year }} Furious Flower Conference</h1>
 </div>
 
 {% for record in records %}
 
 <div class="record">
     <img src="{{ record.get_thumbnail_url }}?square" class="thumbnail" />
-    <a href="{% url furiousflower-view record.id, record.name %}">{{ record.title }}</a>
+    <a href="{% url furiousflower-view year, record.id, record.name %}">{{ record.title }}</a>
 </div>
 
 {% endfor %}
