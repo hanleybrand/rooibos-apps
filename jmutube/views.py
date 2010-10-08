@@ -41,7 +41,7 @@ class RecordWrapper(object):
         self.name = record.name
         self.title = record.title
         self.ownedwrapper = OwnedWrapper.objects.get_for_object(user=record.owner, object=record)
-        media = record.media_set.select_related('storage').all()
+        media = record.media_set.select_related('storage').filter(master=None)
         if media:
             self.media = media[0]
             self.url = self.media.storage.storage_system.get_absolute_media_url(self.media.storage, self.media)
@@ -53,7 +53,7 @@ class RecordWrapper(object):
 
 @jmutube_login_required
 def media_main(request, type):
-
+    
     if request.method == 'POST':
         tag = request.POST.get('tag').replace('"', '')
         ids = map(int, filter(None, request.POST.get('files').split(',')))
@@ -170,15 +170,13 @@ def media_rename(request, type, id, name):
 def thumbnail(request, username, id, name):
     record = get_object_or_404(Record, id=id, owner__username=username, source__startswith='jmutube')
 
-    filename = get_thumbnail_for_record(record, request.user, crop_to_square=request.GET.has_key('square'))
-    if filename:
-        try:
-            content = open(filename, 'rb').read()
-            if content:
-                return HttpResponse(content=content, mimetype=str(media.mimetype))
-        except IOError:
-            pass
-        return HttpResponseServerError()
+    media = get_thumbnail_for_record(record, request.user, crop_to_square=request.GET.has_key('square'))
+    if media:
+        content = media.load_file()
+        if content:
+            return HttpResponse(content=content, mimetype=str(media.mimetype))
+        else:
+            return HttpResponseServerError()
     else:
         return HttpResponseRedirect(reverse('jmutube-static', args=('images/nothumbnail.jpg',)))
 
@@ -226,7 +224,7 @@ def upload_file(request):
             else:
                 if request.POST.get('swfupload') == 'true':
                     return HttpResponseForbidden(content='invalid type', mimetype='text/plain')
-
+                
                 request.user.message_set.create(message="The file you uploaded does not have a valid extension." +
                                                 "Valid files are %s." % (','.join(filter(None, [','.join(x) for x in FILE_TYPES.values()]))))
                 return HttpResponseRedirect(reverse('jmutube-upload'))
