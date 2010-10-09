@@ -33,7 +33,7 @@ def main(request, year='1994'):
         if records.has_key(r):
             sorted_records.append(records.pop(r))
     sorted_records.extend(records.values())
-    
+
     return render_to_response('furiousflower-main.html',
                               {'records': sorted_records, 
                                'year': year,
@@ -41,18 +41,17 @@ def main(request, year='1994'):
                               context_instance=RequestContext(request))
 
 
+
 def view(request, year, id, name):
 
     record = get_object_or_404(Record, id=id)
 
     storage = Storage.objects.get(name='furious-flower')
-    
-    media = record.media_set.filter(master=None,
-                                 storage=storage,
-                                 mimetype__in=('video/mp4', 'video/quicktime'))
+
+    media = record.media_set.filter(storage=storage, mimetype__in=('video/mp4', 'video/quicktime'))
     if not media:
         raise Http404()
-        
+
     return render_to_response('furiousflower-view.html',
                               {'record': record,
                                'media': media[0],
