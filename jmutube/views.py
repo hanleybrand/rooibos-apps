@@ -175,7 +175,7 @@ def thumbnail(request, username, id, name):
         try:
             content = open(filename, 'rb').read()
             if content:
-                return HttpResponse(content=content, mimetype=str(media.mimetype))
+                return HttpResponse(content=content, mimetype="image/jpeg")
         except IOError:
             pass
         return HttpResponseServerError()
