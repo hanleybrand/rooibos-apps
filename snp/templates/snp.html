@@ -579,6 +579,7 @@ jkmegamenu.definemenu("ServicesDD", "megamenu4", "mouseover")
 
 	<div id="contentWiderSubpage">
 
+{% if user.is_authenticated %}<div style="float: right;"><a href="{% url logout %}?next={% url snp-main %}" style="color: red;">LOGOUT</a></div>{% endif %}
 
 {% block content %}
 

@@ -23,6 +23,7 @@ from rooibos.util import json_view
 from rooibos.viewers import NO_SUPPORT, PARTIAL_SUPPORT, FULL_SUPPORT
 from rooibos.solr.views import run_search
 from rooibos.viewers.viewers.audiotextsync import AudioTextSync
+from rooibos.access.views import login
 
 
 def main(request):
@@ -189,10 +190,15 @@ def media(request, number):
 
 def transcript(request, number):
 
-
     collection = Collection.objects.get(name='shenandoah-national-park')
     record = get_object_or_404(FieldValue,
                                record__collection=collection,
                                field__label='Identifier',
                                value=number).record
     return AudioTextSync().view(request, record.id, record.name, template='snp-transcript.html')
+
+
+def snp_login(request, *args, **kwargs):
+    response = login(request, *args, **kwargs)
+    request.session.set_expiry(1800)
+    return response
