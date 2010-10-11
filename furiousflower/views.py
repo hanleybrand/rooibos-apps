@@ -46,7 +46,7 @@ def view(request, year, id, name):
 
     record = get_object_or_404(Record, id=id)
 
-    storage = Storage.objects.get(name='furious-flower')
+    storage = Storage.objects.get(name='furious-flower-%s' % year)
 
     media = record.media_set.filter(storage=storage, mimetype__in=('video/mp4', 'video/quicktime'))
     if not media:
