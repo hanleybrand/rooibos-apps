@@ -58,7 +58,7 @@
 </ul>
 
 {% if type %}
-<form id="taggingform" method="POST" action="{{ tag_url }}">
+<form id="taggingform" method="POST" action="{{ tag_url }}">{% csrf_token %}
 <input type="hidden" name="tag" id="tag" value="" />
 <input type="hidden" name="files" id="files" value="" />
 

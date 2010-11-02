@@ -69,10 +69,11 @@ def jmutube_login_required(function, redirect_field_name=REDIRECT_FIELD_NAME):
         return False
     actual_decorator = user_passes_test(
         _is_authenticated,
+        login_url=settings.JMUTUBE_LOGIN_URL,
         redirect_field_name=redirect_field_name
     )
     actual_decorator = actual_decorator(function)
-    actual_decorator.login_url = settings.JMUTUBE_LOGIN_URL
+    #actual_decorator.login_url = settings.JMUTUBE_LOGIN_URL
     return actual_decorator
 
 

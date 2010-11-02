@@ -3,7 +3,7 @@
 
 {% block mediacontent %}
 
-<form method="post" action="" id="pageform">
+<form method="post" action="" id="pageform">{% csrf_token %}
 
 <style>
 .playlistitemcontainer {

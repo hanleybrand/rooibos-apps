@@ -105,7 +105,7 @@ background-image:url({% url jmutube-static 'slider-bg.png' %});
 
 <h3>Schedule A CRASS Recording</h3>
 
-<form method="post" action="">
+<form method="post" action="">{% csrf_token %}
 <table>
     {{ form }}
 </table>
@@ -133,7 +133,7 @@ background-image:url({% url jmutube-static 'slider-bg.png' %});
 
 <h3>Your current schedules:</h3>
 
-<form method="post" action="">
+<form method="post" action="">{% csrf_token %}
 <table>
     <tr>
         <th>Room</th>
