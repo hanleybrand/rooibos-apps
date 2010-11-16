@@ -6,6 +6,10 @@
 $(window).bind("load", function() {
     $.cookie('playlist', null, { path: '/' });
 })
+$(document).ready(function() {
+    $(".impersonation-autocomplete").autocomplete('{% url impersonation-autocomplete-user %}', {});
+});
+
 </script>
 {% endblock %}
 
@@ -18,4 +22,3 @@ $(window).bind("load", function() {
     {% impersonation_form %}
 </div>
 {% endblock %}
-
