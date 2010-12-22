@@ -1,0 +1,56 @@
+{% extends "master.html" %}
+
+{% load data %}
+
+
+{% block header %}
+{% endblock %}
+
+
+{% block stylesheets %}
+{{ block.super }}
+
+<style type='text/css'>
+#content-wrapper {
+    margin: 20px;
+    border: solid thin #C9C6BC;
+}
+
+#content {
+    padding-top: 15px !important;
+    border: solid thin #AEABA3;
+}
+
+#ovclogo {
+    margin-bottom: 20px;
+}
+
+.active-facet {
+    border-color: #B7B4AB;
+}
+
+.active-facet .facet-header {
+    background-color: #B7B4AB;
+}
+
+a, a:link, a:visited, a:hover {
+    color: #B7B4AB;
+}
+
+
+</style>
+
+{% endblock %}
+
+
+
+{% block content-top %}
+
+<img id="ovclogo" src="{% url ovc-static 'ovclogo.jpg' %}" />
+
+{% endblock %}
+
+
+
+{% block basket %}
+{% endblock %}

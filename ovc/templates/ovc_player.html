@@ -1,0 +1,14 @@
+{% extends "mediaplayer/mediaplayer.html" %}
+
+
+{% load data %}
+
+
+{% block content %}
+{{ block.super }}
+
+<div>
+    {% metadata record %}
+</div>
+
+{% endblock %}

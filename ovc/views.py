@@ -21,17 +21,22 @@ def redirect_to_video(request, id):
                             request=request,
                             content_object=records[0],
                             data=dict(id=id))
-    return HttpResponseRedirect(MediaPlayer().url_for_obj(records[0]))
+    request.master_template = 'ovc_master.html'
+    return MediaPlayer().view(request, records[0].id, records[0].name,
+                              template='ovc_player.html')
 
 
 @login_required
 def redirect_to_video_id(request, id):
     try:
-        record = ObjectHistory.objects.get(content_type=ContentType.objects.get_for_model(Record),original_id=id).content_object
+        record = ObjectHistory.objects.get(content_type=ContentType.objects.get_for_model(Record),
+                                           original_id=id).content_object
     except ObjectHistory.DoesNotExist:
         raise Http404()
     Activity.objects.create(event='ovc-redirect-by-id',
                             request=request,
                             content_object=record,
                             data=dict(id=id))
-    return HttpResponseRedirect(MediaPlayer().url_for_obj(record))
+    request.master_template = 'ovc_master.html'
+    return MediaPlayer().view(request, record.id, record.name,
+                              template='ovc_player.html')
