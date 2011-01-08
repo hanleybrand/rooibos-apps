@@ -30,6 +30,15 @@ def jmutube_login(request, *args, **kwargs):
         get_jmutube_storage().storage_system.sync_files(request.user)
     return response
 
+def jmutube404(request):
+    logging.debug("Called custom JMUtube 404")
+    from django.views.defaults import page_not_found
+    return page_not_found(request, template_name='jmutube-404.html')
+
+def jmutube500(request):
+    logging.debug("Called custom JMUtube 500")
+    from django.views.defaults import server_error
+    return server_error(request, template_name='jmutube-500.html')
 
 
 class RecordWrapper(object):

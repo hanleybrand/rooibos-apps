@@ -20,6 +20,9 @@ def sync_on_impersonate(sender, **kwargs):
 signals.user_impersonated.connect(sync_on_impersonate)
 logging.debug("Connected to impersonation signal (%s)" % signals.user_impersonated)
 
+handler404 = getattr(settings, 'HANDLER404', handler404)
+handler500 = getattr(settings, 'HANDLER500', handler500)
+
 
 urlpatterns = patterns('',
     url(r'^$', direct_to_template, {'template': 'jmutube-home.html'}, name='jmutube-main'),
@@ -44,5 +47,9 @@ urlpatterns = patterns('',
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', {'packages': 'django.conf'}, name='jmutube-jsi18n'),
     (r'^impersonate/', include('impersonate.urls')),
     url(r'^help/$', direct_to_template, {'template': 'jmutube-help.html'}, name='jmutube-help'),
+
+    url(r'^favicon.ico$', 'django.views.static.serve', {'document_root': settings.JMUTUBE_STATIC_FILES, 'path': 'images/favicon.ico'}),
+    url(r'^robots.txt$', 'django.views.static.serve', {'document_root': settings.JMUTUBE_STATIC_FILES, 'path': 'robots.txt'}),
+
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.JMUTUBE_STATIC_FILES}, name='jmutube-static'),
     )
