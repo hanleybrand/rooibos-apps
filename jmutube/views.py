@@ -1,3 +1,4 @@
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.core.cache import cache
@@ -192,6 +193,7 @@ def thumbnail(request, username, id, name):
         return HttpResponseRedirect(reverse('jmutube-static', args=('images/nothumbnail.jpg',)))
 
 
+@csrf_exempt
 @jmutube_login_required
 def upload_file(request):
 
