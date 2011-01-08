@@ -69,7 +69,10 @@ def playlist_play(request, user, title):
                                  source='jmutube')
     return render_to_response('jmutube-playlist.html',
                               { 'title': playlist.title,
-                                'feed': 'http://%s%s' % (request.get_host(), reverse('jmutube-playlist-rss-feed', args=(user, playlist.id))) },
+                                'feed': '%s://%s%s' % (
+                                'https' if request.META.get('HTTPS', 'off') == 'on' else 'http',
+                                request.get_host(), 
+                                reverse('jmutube-playlist-rss-feed', args=(user, playlist.id))) },
                               context_instance = RequestContext(request))
 
 def playlist_download(request, user, title):

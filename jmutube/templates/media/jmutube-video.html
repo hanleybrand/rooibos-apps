@@ -277,15 +277,15 @@ function new_playlist() {
 var htmltoembed_template =
         '<div style="margin: 0px; padding: 0px; overflow: hidden; width: 480px; height: 400px;">\n' +
         '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,115,0" width="480" height="400" id="jmutube" align="middle">\n' +
-        '<param name="movie" value="http://jmutube.cit.jmu.edu/static/player/jmutube.swf" />\n' +
+        '<param name="movie" value="{player}" />\n' +
         '<param name="allowFullScreen" value="true" />\n' +
         '<param name="allScriptAccess" value="sameDomain" />\n' +
         '<param name="quality" value="high" />\n' +
         '<param name="scale" value="exactfit" />\n' +
         '<param name="loop" value="false" />\n' +
         '<param name="FlashVars" value="{link}?player=jmutube" />\n' +
-        '<object data="http://jmutube.cit.jmu.edu/static/player/jmutube.swf" height="400" type="application/x-shockwave-flash" width="480">\n' +
-        '<param name="movie" value="http://jmutube.cit.jmu.edu/static/player/jmutube.swf" />\n' +
+        '<object data="{player}" height="400" type="application/x-shockwave-flash" width="480">\n' +
+        '<param name="movie" value="{player}" />\n' +
         '<param name="allowFullScreen" value="true" />\n' +
         '<param name="allScriptAccess" value="sameDomain" />\n' +
         '<param name="quality" value="high" />\n' +
@@ -296,30 +296,18 @@ var htmltoembed_template =
         '</object>\n' +
         '</div>';
 
-/*        '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,115,0" width="480" height="400" id="jmutube" align="middle">\n' +
-        '<param name="movie" value="http://jmutube.cit.jmu.edu/static/player/jmutube.swf" />\n' +
-        '<param name="allowFullScreen" value="true" />\n' +
-        '<param name="allScriptAccess" value="sameDomain" />\n' +
-        '<param name="quality" value="high" />\n' +
-        '<param name="scale" value="exactfit" />\n' +
-        '<param name="loop" value="false" />\n' +
-        '<param name="FlashVars" value="{link}" />\n' +
-        '<embed src="http://jmutube.cit.jmu.edu/static/player/jmutube.swf" width="480" height="400" align="middle" name="jmutube"\n' +
-        '   allowfullscreen="true" quality="high" scale="exactfit" type="application/x-shockwave-flash"\n' +
-        '   pluginspage="http://www.macromedia.com/go/getflashplayer" loop="false"\n' +
-        '   flashvars="{link}"></embed>\n' +
-        '</object>';
-*/
 function show_playlist_dialog() {
     var rss = location.protocol + "//" + location.host +
             "{% url jmutube-playlist-rss-feed user.username,"_id_" %}".replace("_id_", playlist_id);
     var page = location.protocol + "//" + location.host +
             "{% url jmutube-playlist-play user.username,"_id_" %}".replace("_id_", playlist_id);
+	var player = location.protocol + "//" + location.host +
+            "{% url jmutube-static 'player/jmutube.swf' %}";
     $('#rssfeedurl').val(rss);
     $('#pageurl').val(page);
     $('#rssfeedurllink').attr("href", rss);
     $('#pageurllink').attr("href", page);
-    $('#htmltoembed').val(htmltoembed_template.replace(/\{link\}/g, 'rssfeed=' + rss));
+    $('#htmltoembed').val(htmltoembed_template.replace(/\{link\}/g, 'rssfeed=' + rss).replace(/\{player\}/g, player));
     $('#getlinkdialog').dialog('open');
     $('#htmlcodelink').bind('click', function() {
             window.open('{% url jmutube-static 'player/jmutube_popout_viewer.html' %}?listidx=0&rssfeed='+rss+'&timestamp=0&isplaying=true','jmutubepopout','height=408,width=488,toolbar=no,scrollbars=no,directories=no,location=yes,status=no,menubar=no,resizeable=no'); return false;
