@@ -43,6 +43,16 @@ a, a:link, a:visited, a:hover {
 {% endblock %}
 
 
+{% block sidebar %}
+{{ block.super }}
+<div class="facet active-facet">
+    <div class="facet-header">Log Out</div>
+    <div class="facet-body">
+        <a href="{% url logout %}">Log out</a>
+    </div>
+</div>
+{% endblock %}
+
 
 {% block content-top %}
 
