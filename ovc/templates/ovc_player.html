@@ -4,9 +4,25 @@
 {% load data %}
 
 
-{% block content %}
+{% block sidebar %}
 {{ block.super }}
 
+{% with record|fieldvalue:"dc.relation" as leoid %}
+{% if leoid %}
+<div class="facet active-facet" id="ovc_player_library_catalog">
+    <div class="facet-header">Library Catalog</div>
+    <div class="facet-body">
+        <a href="http://leo.jmu.edu/record={{ leoid }}" target="ovc_leo">See record in LEO</a>
+    </div>
+</div>
+{% endif %}
+{% endwith %}
+
+{% endblock %}
+
+
+{% block content %}
+{{ block.super }}
 <div>
     {% metadata record %}
 </div>
