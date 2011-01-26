@@ -19,7 +19,6 @@ from tagging.models import Tag, TaggedItem
 from rooibos.data.models import Record, Field, FieldValue
 from rooibos.util.models import OwnedWrapper
 from rooibos.storage import get_thumbnail_for_record
-from rooibos.ui import UploadProgressCachedHandler
 from rooibos.access.views import login
 import logging
 
@@ -210,7 +209,6 @@ def upload_file(request):
 
 
     if request.method == 'POST':
-#        request.upload_handlers.insert(0, UploadProgressCachedHandler(request, 1024 ** 3)) # limit upload to 1 GB
         uploadform = UploadFileForm(request.POST, request.FILES)
         if uploadform.is_valid():
             if uploader and int(uploadform.cleaned_data.get('for_user', 0)) in (i for i, u in available_users):
