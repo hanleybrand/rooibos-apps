@@ -19,7 +19,6 @@ from tagging.models import Tag, TaggedItem
 from rooibos.data.models import Record, Field, FieldValue
 from rooibos.util.models import OwnedWrapper
 from rooibos.storage import get_thumbnail_for_record
-from rooibos.ui import UploadProgressCachedHandler
 from rooibos.access.views import login
 import logging
 
