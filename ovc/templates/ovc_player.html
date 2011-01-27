@@ -12,7 +12,7 @@
 <div class="facet active-facet" id="ovc_player_library_catalog">
     <div class="facet-header">Library Catalog</div>
     <div class="facet-body">
-        <a href="http://leo.jmu.edu/record={{ leoid }}" target="ovc_leo">See record in LEO</a>
+        <a href="http://leo.jmu.edu/record={{ leoid|slice:":-1" }}" target="ovc_leo">See record in LEO</a>
     </div>
 </div>
 {% endif %}
