@@ -70,7 +70,7 @@ $(document).ready(function() {
     {% endif %}
     $('#upload-control').swfupload({
 		upload_url: "{{ request.get_full_path }}",
-		file_size_limit : "512000",
+		file_size_limit : "600000",
 		file_types : "*.mp4;*.mov;*.flv;*.mp3;*.m4a;*.zip",
 		file_types_description : "All Supported Files",
 		file_upload_limit : "0",
@@ -94,7 +94,7 @@ $(document).ready(function() {
 			$(this).swfupload('startUpload');
 		})
 		.bind('fileQueueError', function(event, file, errorCode, message){
-			$('#upload-queue').append("<div>Cannot upload " + file.name + " - invalid file type.<"+"/div>");
+			$('#upload-queue').append("<div>Cannot upload " + file.name + " - invalid file type or file too large.<"+"/div>");
 			$('#log').append('<li>File queue error - '+message+'<'+'/li>');
 		})
 		.bind('fileDialogStart', function(event){
@@ -151,6 +151,8 @@ $(document).ready(function() {
 {% endif %}
 
 <br /><br />
+
+<p>By uploading content to JMUtube, you agree to comply with current copyright law relating to the use and distribution of media. For more information regarding complying with copyright laws, please contact  <a href="http://www.lib.jmu.edu/media/" target="_blank">Media Resources</a> at  8-6802.</p>
 
 <h4>JMUtube currently supports the following file types:</h4>
 <ul>
