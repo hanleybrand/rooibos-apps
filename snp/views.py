@@ -199,6 +199,6 @@ def transcript(request, number):
 
 
 def snp_login(request, *args, **kwargs):
-    response = login(request, *args, **kwargs)
+    response = login(request, login_url=reverse('snp-login'), *args, **kwargs)
     request.session.set_expiry(1800)
     return response

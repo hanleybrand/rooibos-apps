@@ -61,7 +61,7 @@
             {% if user.is_authenticated %}
             <li><a href="{% url options %}">Options</a></li>
    			<li><a href="{% url jmutube-help %}">Help</a></li>
-			<li><a href="{% url jmutube-logout %}">Sign Out</a></li>
+			<li><a href="{% url jmutube-logout %}?next={% url jmutube-main %}">Sign Out</a></li>
 			{% else %}
    			<li><a href="{% url jmutube-help %}">Help</a></li>
             <li><a href="{% url jmutube-media "video" %}">Sign In</a></li>

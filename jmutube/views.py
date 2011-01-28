@@ -24,8 +24,8 @@ import logging
 
 
 def jmutube_login(request, *args, **kwargs):
-    response = login(request, *args, **kwargs)
-    if type(response) == HttpResponseRedirect:
+    response = login(request, login_url=reverse('jmutube-login'), *args, **kwargs)
+    if type(response) == HttpResponseRedirect and request.user.is_authenticated():
         logging.debug("JMUtube login for %s" % request.user)
         get_jmutube_storage().storage_system.sync_files(request.user)
     return response
