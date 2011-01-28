@@ -92,7 +92,7 @@ def playlist_download(request, user, title):
 def verify_user(func):
     def call_func(*args, **kwargs):
         if args[0].user.username != args[1]:
-            raise Http404
+            raise Http404()
         return func(*args, **kwargs)
     return call_func
 
