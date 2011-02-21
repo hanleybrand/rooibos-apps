@@ -1,20 +1,21 @@
 {% extends "furiousflower.html" %}
 
 {% load data %}
+{% load ui %}
 
 {% block javascript %}
 {{ block.super }}
-<script type="text/javascript" src="{% url static 'flowplayer/flowplayer-3.2.4.min.js' %}"></script>
+<script type="text/javascript" src="{% url static 'flowplayer/flowplayer-*.js'|fileversion %}"></script>
 
 <script type="text/javascript">
 $(document).ready(function() {
     var url = "{{ media.get_delivery_url }}".split("/mp4:");
-    flowplayer("player", "/static/flowplayer/flowplayer-3.2.4.swf",
+    flowplayer("player", "{% url static "flowplayer/flowplayer-*.swf"|fileversion %}",
     {
         clip: { url: "mp4:" + url[1], provider: 'influxis' },
         plugins: {
             influxis: {
-                url: '/static/flowplayer/flowplayer.rtmp-3.2.3.swf',
+                url: '{% url static "flowplayer/flowplayer.rtmp-*.swf"|fileversion %}',
                 netConnectionUrl: url[0] }
             }
     }
