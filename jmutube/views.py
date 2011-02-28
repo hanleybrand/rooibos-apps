@@ -98,7 +98,7 @@ def media_main(request, type):
     tags = filter(lambda t: t not in selected_tags and t != 'JMUtube', (t.name for t in Tag.objects.usage_for_model(OwnedWrapper,
                     filters=dict(user=request.user,
                              content_type=OwnedWrapper.t(Record),
-                             object_id__in=records))))
+                             object_id__in=records)))) if records else []
 
 
     return render_to_response(os.path.join('media', 'jmutube-%s.html' % type),
