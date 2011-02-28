@@ -89,7 +89,7 @@ class JMUtubeStorageSystem(LocalFileSystemStorageSystem):
             os.rmdir(dir)
         # check for entry point
         html = filter(lambda f: f.endswith(".htm") or f.endswith(".html"), os.listdir(dirname))
-        if len(html) == 1 and not html in ('default.htm', 'default.html', 'index.htm', 'index.html'):
+        if len(html) == 1 and not html[0] in ('default.htm', 'default.html', 'index.htm', 'index.html'):
             shutil.copy(os.path.join(dirname, html[0]), os.path.join(dirname, 'index.html'))
 
     def create_record_for_file(self, user, file, type):
@@ -117,7 +117,7 @@ class JMUtubeStorageSystem(LocalFileSystemStorageSystem):
             d = self.path(os.path.join(user.username, type))
             if not os.path.isdir(d):
                 os.makedirs(d)
-        
+
         def unify_paths(list):
             return map(lambda s: s.replace('\\', '/').lower(), list)
         logging.debug("Synching files for %s" % user.username)
