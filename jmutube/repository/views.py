@@ -71,7 +71,7 @@ def playlist_play(request, user, title):
                               { 'title': playlist.title,
                                 'feed': '%s://%s%s' % (
                                 'https' if request.META.get('HTTPS', 'off') == 'on' else 'http',
-                                request.get_host(), 
+                                request.get_host(),
                                 reverse('jmutube-playlist-rss-feed', args=(user, playlist.id))) },
                               context_instance = RequestContext(request))
 
@@ -123,7 +123,7 @@ def playlists_json(request, user):
 @json_view
 @verify_user
 def store_playlist(request, user):
-    id = int(request.POST['id'])
+    id = int(request.POST.get('id', 0))
     title = request.POST['title']
     items = map(int, request.POST['items'].split(','))
     deliveries = request.POST['delivery'].split(',')
