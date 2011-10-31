@@ -19,12 +19,12 @@ class Job(HourlyJob):
         storage = get_jmutube_storage()
         logging.info('CRASS sorter starting')
         for file in os.listdir(settings.JMUTUBE_CRASS_INCOMING_FOLDER):
-        
+
             age = time.time() - os.path.getmtime(os.path.join(settings.JMUTUBE_CRASS_INCOMING_FOLDER, file))
             if age < 600:
                 logging.debug('CRASS skipping file %s with age %s' % (file, age))
                 continue
-                
+
             logging.debug('Processing %s' % file)
             match = Job.file_re.match(file)
             if match:
@@ -52,6 +52,7 @@ class Job(HourlyJob):
                     wrapper = OwnedWrapper.objects.get_for_object(user=schedule.user, object=record)
                     Tag.objects.add_tag(wrapper, '"%s %s"' % (schedule.computer.building, schedule.computer.room))
                     Tag.objects.add_tag(wrapper, 'CRASS')
+                    Tag.objects.add_tag(wrapper, str(dt.year))
                     Tag.objects.add_tag(wrapper, '"Week %s"' % dt.isocalendar()[1])
                     Tag.objects.add_tag(wrapper, ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][dt.weekday()])
                     logging.debug("-> %s" % newname)
