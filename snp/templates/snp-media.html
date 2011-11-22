@@ -10,7 +10,7 @@
       <p style="margin-top:0;">
       <a href="http://www.lib.jmu.edu/special/oralhistory/oralhistoryhome.aspx">Oral Histories </a>
       &gt; <a href="{% url snp-main %}"> SNP Collection</a>
-      &gt; <a href=".">{{ record.title }}</a>
+      &gt; <a href="{% url snp-interview interview_number %}">{{ record.title }}</a>
 
       </p>
 
@@ -19,7 +19,9 @@
 
     {% for m, label in media %}
       {% ifequal m.mimetype "image/jpeg" %}
-        <img style="float: right; width: 300px;" src="{{ m.get_absolute_url }}" />
+        <a href="{{ m.get_absolute_url }}">
+        <img style="float: right; clear: right; border: none; width: 300px;" src="{{ m.get_absolute_url }}" />
+        </a>
       {% endifequal %}
     {% endfor %}
 

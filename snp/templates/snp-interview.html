@@ -16,9 +16,19 @@
 
       <blockquote>
 
-    {% if image %}
-        <img style="float: right; width: 200px; margin: 10px;" src="{{ image.get_absolute_url }}" />
-      {% endif %}
+    {% if images %}
+    {% for image in images %}
+        <img style="float: right; width: 200px; margin: 10px; display: {{ forloop.first|yesno:"block,none" }}" src="{{ image.get_absolute_url }}" id="image{{ forloop.counter0 }}" class="rotating_image" />
+    {% endfor %}
+    <script>
+        var currentImage = 0;
+        setInterval(function() {
+            $(".rotating_image").hide();
+            currentImage = (currentImage + 1) % {{ images|length }};
+            $("#image" + currentImage).show();
+        }, 5000);
+    </script>
+    {% endif %}
 
         <p>{{ description }}
         </p>

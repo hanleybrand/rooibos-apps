@@ -18,7 +18,7 @@ from django.utils import simplejson
 from django.utils.safestring import mark_safe
 from rooibos.access import filter_by_access
 from rooibos.data.models import Record, Collection, FieldValue, standardfield, get_system_field
-from rooibos.storage.models import Storage
+from rooibos.storage.models import Storage, Media
 from rooibos.util import json_view
 from rooibos.viewers import NO_SUPPORT, PARTIAL_SUPPORT, FULL_SUPPORT
 from rooibos.solr.views import run_search
@@ -37,9 +37,15 @@ def browse(request):
     collection = Collection.objects.get(name='shenandoah-national-park')
 
     interview_numbers = dict(FieldValue.objects.filter(record__collection=collection,
-                                                  field__label='Identifier').values_list('record__id', 'value'))
+                             field__label='Identifier').values_list('record__id', 'value'))
     status = dict(FieldValue.objects.filter(record__collection=collection,
-                                                  label='Status').values_list('record__id', 'value'))
+                                            label='Status').values_list('record__id', 'value'))
+    mimetypes = dict()
+    all_mimetypes = dict()
+    for id, mimetype in Media.objects.filter(record__collection=collection).values_list('record__id', 'mimetype'):
+        mimetype = mimetype.replace('/', '_')
+        mimetypes.setdefault(id, []).append(mimetype)
+        all_mimetypes[mimetype] = None
 
     def get_values(label):
         v = FieldValue.objects.filter(
@@ -49,7 +55,9 @@ def browse(request):
         for i in v:
             i['interview_number'] = interview_numbers.get(i['min_record_id'])
             i['status'] = status.get(i['min_record_id'])
+            i['mimetypes'] = mimetypes.get(i['min_record_id'])
         return v
+
 
     interviewees = get_values('Interviewee')
     family_names = get_values('Family Names')
@@ -63,6 +71,7 @@ def browse(request):
                             'personal_names': personal_names,
                             'place_names': place_names,
                             'subjects': subjects,
+                            'mimetypes': all_mimetypes.keys(),
                             },
                           context_instance=RequestContext(request))
 
@@ -147,7 +156,7 @@ def interview(request, number):
     storages = filter_by_access(request.user, Storage)
     media = record.media_set.filter(storage__in=storages)
 
-    image = filter(lambda m: m.mimetype == 'image/jpeg', media)
+    images = filter(lambda m: m.mimetype == 'image/jpeg', media)
 
     return render_to_response('snp-interview.html',
                               {'record': record,
@@ -155,7 +164,7 @@ def interview(request, number):
                                'interview_number': number,
                                'has_audio_transcript': AudioTextSync().analyze(record, request.user) == FULL_SUPPORT,
                                'has_media': len(media) > 0,
-                               'image': image[0] if image else None,
+                               'images': images,
                                },
                               context_instance=RequestContext(request))
 
@@ -176,7 +185,7 @@ def media(request, number):
                                value=number).record
 
     storages = filter_by_access(request.user, Storage)
-    media = record.media_set.filter(storage__in=storages)
+    media = record.media_set.filter(storage__in=storages).order_by('mimetype')
     labels = [LABELS.get(m.mimetype, 'Download file') for m in media]
 
     return render_to_response('snp-media.html',

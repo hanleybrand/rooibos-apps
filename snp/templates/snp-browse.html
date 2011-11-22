@@ -31,6 +31,17 @@
       <td> <a href="{% ifequal r.num_records 1 %}{% url snp-interview r.interview_number %}{% else %}{% url snp-search %}?f=Interviewee&v={{ r.value|urlencode }}{% endifequal %}">{{ r.value }}</a>
 	  {% ifequal 'u' r.status %}<span class="restrictedResults">R</span>{% endifequal %}
 	  </td>
+	  <td>
+		{% ifequal r.num_records 1 %}
+			{% for mimetype in mimetypes %}
+			{% if mimetype in r.mimetypes %}
+				<img src="{% url snp-static '' %}{{ mimetype }}.png" />
+			{% else %}
+				<img src="{% url snp-static 'blank.png' %}" />
+			{% endif %}
+			{% endfor %}
+		{% endifequal %}
+	  </td>
       <td>{% ifequal r.num_records 1 %}{{ r.interview_number }}{% else %}multiple{% endifequal %}</td>
       </tr>
 {% endfor %}

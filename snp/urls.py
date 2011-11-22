@@ -16,6 +16,6 @@ urlpatterns = patterns('',
 
 
 #     url(r'^css/$', direct_to_template, {'template': 'furiousflower.css', 'mimetype': 'text/css'}, name='furiousflower-css'),
-#     url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.FURIOUSFLOWER_STATIC_FILES}, name='furiousflower-static'),
+     url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.SNP_STATIC_FILES}, name='snp-static'),
 #     url(r'^view/(?P<id>[\d]+)/(?P<name>[-\w]+)/$', view, name='furiousflower-view'),
     )
