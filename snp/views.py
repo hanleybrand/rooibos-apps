@@ -20,9 +20,8 @@ from rooibos.access import filter_by_access
 from rooibos.data.models import Record, Collection, FieldValue, standardfield, get_system_field
 from rooibos.storage.models import Storage, Media
 from rooibos.util import json_view
-from rooibos.viewers import NO_SUPPORT, PARTIAL_SUPPORT, FULL_SUPPORT
 from rooibos.solr.views import run_search
-from rooibos.viewers.viewers.audiotextsync import AudioTextSync
+from rooibos.audiotextsync.viewers import audiotextsyncviewer
 from rooibos.access.views import login
 
 
@@ -158,11 +157,13 @@ def interview(request, number):
 
     images = filter(lambda m: m.mimetype == 'image/jpeg', media)
 
+    atsviewer = audiotextsyncviewer(record, request)
+
     return render_to_response('snp-interview.html',
                               {'record': record,
                                'description': description[0] if description else None,
                                'interview_number': number,
-                               'has_audio_transcript': AudioTextSync().analyze(record, request.user) == FULL_SUPPORT,
+                               'has_audio_transcript': atsviewer,
                                'has_media': len(media) > 0,
                                'images': images,
                                },
@@ -204,7 +205,9 @@ def transcript(request, number):
                                record__collection=collection,
                                field__label='Identifier',
                                value=number).record
-    return AudioTextSync().view(request, record.id, record.name, template='snp-transcript.html')
+    atsviewer = audiotextsyncviewer(record, request)
+
+    return atsviewer.view(request, template='snp-transcript.html')
 
 
 def snp_login(request, *args, **kwargs):

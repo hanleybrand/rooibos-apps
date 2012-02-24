@@ -1,4 +1,4 @@
-{% extends "mediaplayer/mediaplayer.html" %}
+{% extends "viewers_shell.html" %}
 
 
 {% load data %}
@@ -24,7 +24,7 @@
 {% block content %}
 {{ block.super }}
 <div>
-    {% metadata record %}
+    {% metadata viewer.obj %}
 </div>
 
 {% endblock %}
