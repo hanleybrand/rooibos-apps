@@ -74,6 +74,6 @@ def main(request):
                                'issues': combined,
                                'record': record_id,
                                'viewer': viewer,
-                               'embedcode': viewer.embed_code(request, None),
+                               'embedcode': viewer.embed_code(request, None) if viewer else None,
                                },
                               context_instance=RequestContext(request))
