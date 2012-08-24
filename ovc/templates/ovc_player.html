@@ -7,7 +7,7 @@
 {% block sidebar %}
 {{ block.super }}
 
-{% with record|fieldvalue:"dc.relation" as leoid %}
+{% with viewer.obj|fieldvalue:"dc.relation" as leoid %}
 {% if leoid %}
 <div class="facet active-facet" id="ovc_player_library_catalog">
     <div class="facet-header">Library Catalog</div>
