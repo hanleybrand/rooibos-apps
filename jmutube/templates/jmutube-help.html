@@ -66,15 +66,16 @@
 <p>More info on this and all of our A/V services can be found on the <a href="http://cit.jmu.edu/support_services/audio_video/" target="_blank">CIT website</a>.</p>
 
 
-<h3>Can I Encode The Video Myself?</h3>
+<a name="encode_myself"></a><h3>Can I Encode The Video Myself?</h3>
 
 
 <p>Encoding video is a bit of a black art, but it is absolutely possible for you to encode your own video. Here are some general tips to help you create web-suitable video (and audio actually).</p>
 
 <ul>
 	<li>Overall file size doesn't matter much. Only the bitrate, which is the size <em>per second</em>.</li>
+	<li>The frame size of the JMUtube player is 480x360. Anything larger than that is wasted unless your viewers use full-screen.</li>
 	<li>Most video is composed of both audio and video, so you'll need watch your settings for both when encoding.</li>
-	<li>Video encoding is a balance between bitrates and quality. Try to keep your total bitrate between 500kbit/sec and 1000kbit/sec at most. Lower bitrates = smoother playback.</li>
+	<li>Video encoding is about balance, so try to use the lowest bitrate that still gives you a good looking file (lower bitrates mean smoother delivery). In general, we recommend a bitrate between 500kbit/sec and 1000kbit/sec at most.</li>
 	<li>Audio (by itself or with video) must use a 22.05kHz or 44.1kHz sample rate to play in Flash (and therefore JMUtube). Luckily, one of these is usually the default, but many higher end video cameras use 48kHz audio.</li>
 	<li>The .m4v and .mp4 file formats are the same. Just changing the extension of a .m4v file to .mp4 will make it compatible with JMUtube.</li>
 
