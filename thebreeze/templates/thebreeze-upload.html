@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>The Breeze Archive</title>
+
+		<link  href="{% url thebreeze-css %}" rel="stylesheet" type="text/css" media="screen" />
+	</head>
+	<body>
+
+
+		<div id="container">
+
+			<div id="header">
+                <form method="post" action="." enctype="multipart/form-data">
+
+				<h1>The Breeze</h1>
+
+				<img src="{% url thebreeze-static breezelogo %}" alt="The Breeze" width="335" height="92" />
+
+                <div style="margin: 40px; text-align: left;">
+                    {{ form.as_p }}
+
+                    <p>Please upload the issue as a single PDF file that includes all inserts, specials, etc.</p>
+
+                    <input type="submit" value="Upload" />
+                </div>
+
+                </form>
+
+			</div>
+
+			<h2>Upload New Issue</h2>
+
+
+
+
+		</div>
+
+		<div id="left_ribbon">
+			<img src="{% url thebreeze-static 'ribbon_end_left_outside.png' %}" alt="ribbon_end_left_outside" width="55" height="74" />
+		</div>
+
+		<div id="right_ribbon">
+			<img src="{% url thebreeze-static 'ribbon_end_right_outside.png' %}" alt="ribbon_end_right_outside" width="55" height="74" />
+		</div>
+
+
+        <a href="/"><div id="poweredbymdid"></div></a>
+
+
+        <script type="text/javascript" src="{% url static 'jquery/jquery-1.4.4.min.js' %}"></script>
+        <script type="text/javascript">
+        </script>
+
+
+	</body>
+</html>
